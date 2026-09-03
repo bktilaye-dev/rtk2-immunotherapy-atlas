@@ -1,0 +1,579 @@
+<!doctype html>
+<title>RTK II Immunotherapy Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  :root{
+    --bg:#F6F7FA; --surface:#FFFFFF; --surface-2:#EEF0F5; --surface-3:#E4E7F0;
+    --ink:#12182B; --ink-muted:#4B5569; --ink-faint:#7C86A0;
+    --border:#DEE2EC; --border-strong:#C7CDDC;
+    --accent:#1B3A6B; --accent-ink:#FFFFFF;
+    --link:#1B3A6B;
+
+    --g-tcell:#D65946; --g-nk:#1E9E86; --g-stem:#7B5FD1; --g-anktiva:#C7891A; --g-cd8:#2E6FE0;
+    --g-tcell-tint:#FBEAE7; --g-nk-tint:#E6F5F1; --g-stem-tint:#F0ECFC; --g-anktiva-tint:#FBF0DD; --g-cd8-tint:#E9F0FD;
+
+    --grade-pre-bg:#EEF0F5; --grade-pre-ink:#6B7280; --grade-pre-bd:#D8DCE6;
+    --grade-p1-bg:#E7E9FB; --grade-p1-ink:#3644B0;
+    --grade-p2-bg:#C9CEF5; --grade-p2-ink:#2A3696;
+    --grade-p3-bg:#4C5BC7; --grade-p3-ink:#FFFFFF;
+    --grade-ap-bg:#16203E; --grade-ap-ink:#D9A93B;
+
+    --shadow: 0 1px 2px rgba(18,24,43,.05), 0 6px 16px -8px rgba(18,24,43,.12);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0D1220; --surface:#141B2E; --surface-2:#1B2440; --surface-3:#232C4C;
+      --ink:#E7EAF2; --ink-muted:#A7B0C7; --ink-faint:#6E7893;
+      --border:#2A3352; --border-strong:#39436B;
+      --accent:#6FA0FF; --accent-ink:#0D1220;
+      --link:#8FB4FF;
+
+      --g-tcell:#D9614C; --g-nk:#26A88C; --g-stem:#8A73E0; --g-anktiva:#C79A45; --g-cd8:#5285ED;
+      --g-tcell-tint:#2A1B1C; --g-nk-tint:#132824; --g-stem-tint:#211C3C; --g-anktiva-tint:#2A2214; --g-cd8-tint:#16233F;
+
+      --grade-pre-bg:#1B2440; --grade-pre-ink:#8A93AD; --grade-pre-bd:#2A3352;
+      --grade-p1-bg:#262E52; --grade-p1-ink:#AEB8F5;
+      --grade-p2-bg:#333F7A; --grade-p2-ink:#C7CDFB;
+      --grade-p3-bg:#4C5BC7; --grade-p3-ink:#EDEFFF;
+      --grade-ap-bg:#1B2340; --grade-ap-ink:#E7C15C;
+
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px -12px rgba(0,0,0,.55);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1220; --surface:#141B2E; --surface-2:#1B2440; --surface-3:#232C4C;
+    --ink:#E7EAF2; --ink-muted:#A7B0C7; --ink-faint:#6E7893;
+    --border:#2A3352; --border-strong:#39436B;
+    --accent:#6FA0FF; --accent-ink:#0D1220;
+    --link:#8FB4FF;
+    --g-tcell:#D9614C; --g-nk:#26A88C; --g-stem:#8A73E0; --g-anktiva:#C79A45; --g-cd8:#5285ED;
+    --g-tcell-tint:#2A1B1C; --g-nk-tint:#132824; --g-stem-tint:#211C3C; --g-anktiva-tint:#2A2214; --g-cd8-tint:#16233F;
+    --grade-pre-bg:#1B2440; --grade-pre-ink:#8A93AD; --grade-pre-bd:#2A3352;
+    --grade-p1-bg:#262E52; --grade-p1-ink:#AEB8F5;
+    --grade-p2-bg:#333F7A; --grade-p2-ink:#C7CDFB;
+    --grade-p3-bg:#4C5BC7; --grade-p3-ink:#EDEFFF;
+    --grade-ap-bg:#1B2340; --grade-ap-ink:#E7C15C;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px -12px rgba(0,0,0,.55);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-variant-numeric:tabular-nums; }
+  h1,h2,h3{ font-family:"Source Serif 4", Georgia, "Times New Roman", serif; text-wrap:balance; margin:0; }
+  a{ color:var(--link); }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 24px 80px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{ border-bottom:1px solid var(--border); background:var(--surface); }
+  .masthead-inner{ max-width:1180px; margin:0 auto; padding:34px 24px 26px; }
+  .kicker{ font-family:"IBM Plex Mono"; font-size:11.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px; }
+  .kicker b{ color:var(--g-cd8); font-weight:600; }
+  h1{ font-size:clamp(28px,4vw,40px); font-weight:700; letter-spacing:-.01em; }
+  .dek{ margin-top:10px; max-width:62ch; color:var(--ink-muted); font-size:16px; }
+  .meta-row{ margin-top:18px; display:flex; flex-wrap:wrap; gap:8px 20px; font-size:12.5px; color:var(--ink-faint); font-family:"IBM Plex Mono"; }
+  .meta-row span b{ color:var(--ink-muted); font-weight:500; }
+
+  /* ---------- Callout ---------- */
+  .callout{ margin-top:22px; padding:14px 16px; border:1px solid var(--border); border-left:3px solid var(--accent); background:var(--surface-2); border-radius:4px; font-size:13.5px; color:var(--ink-muted); }
+  .callout b{ color:var(--ink); }
+
+  /* ---------- Stat tiles ---------- */
+  .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-top:28px; }
+  .stat{ background:var(--surface); padding:16px 18px; }
+  .stat-num{ font-family:"IBM Plex Mono"; font-size:28px; font-weight:600; letter-spacing:-.02em; }
+  .stat-label{ margin-top:2px; font-size:12px; color:var(--ink-faint); }
+
+  /* ---------- Overview bar chart ---------- */
+  .overview{ margin-top:34px; }
+  .overview h2{ font-size:15px; font-weight:600; color:var(--ink-muted); font-family:"IBM Plex Sans"; text-transform:uppercase; letter-spacing:.04em; }
+  .bars{ margin-top:14px; display:flex; flex-direction:column; gap:10px; }
+  .bar-row{ display:grid; grid-template-columns:190px 1fr 34px; align-items:center; gap:10px; }
+  .bar-label{ font-size:13px; color:var(--ink-muted); display:flex; align-items:center; gap:8px; }
+  .bar-dot{ width:9px; height:9px; border-radius:50%; flex:none; }
+  .bar-track{ height:10px; background:var(--surface-2); border-radius:5px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:5px; }
+  .bar-count{ font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--ink-faint); text-align:right; }
+
+  /* ---------- Controls ---------- */
+  .controls{ position:sticky; top:0; z-index:5; margin-top:36px; padding:14px 0; background:var(--bg); border-bottom:1px solid var(--border); }
+  .controls-row{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  .search{ flex:1 1 220px; position:relative; }
+  .search input{ width:100%; padding:9px 12px 9px 32px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); border-radius:7px; font-size:13.5px; font-family:inherit; }
+  .search svg{ position:absolute; left:10px; top:50%; transform:translateY(-50%); opacity:.5; }
+  select{ padding:9px 10px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink); border-radius:7px; font-size:13px; font-family:inherit; }
+  .chip{ padding:7px 12px; border-radius:99px; border:1px solid var(--border-strong); background:var(--surface); color:var(--ink-muted); font-size:12.5px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; user-select:none; transition:background .12s,color .12s,border-color .12s; }
+  .chip .dot{ width:8px; height:8px; border-radius:50%; }
+  .chip[aria-pressed="true"]{ background:var(--tint); border-color:var(--gc); color:var(--ink); font-weight:500; }
+  .chip:hover{ border-color:var(--gc); }
+  .toggle{ display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--ink-muted); cursor:pointer; padding:7px 4px; }
+  .toggle input{ accent-color:var(--accent); width:14px; height:14px; }
+  .clear-btn{ font-size:12.5px; color:var(--ink-faint); background:none; border:0; cursor:pointer; text-decoration:underline; text-underline-offset:2px; padding:7px 2px; }
+  .result-count{ margin-top:10px; font-size:12px; color:var(--ink-faint); font-family:"IBM Plex Mono"; }
+
+  /* ---------- Sections ---------- */
+  .section{ margin-top:38px; }
+  .section-head{ display:flex; align-items:baseline; gap:12px; border-left:3px solid var(--gc); padding-left:14px; }
+  .section-head h2{ font-size:21px; font-weight:600; }
+  .section-count{ font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-faint); }
+  .section-desc{ margin:8px 0 0 17px; color:var(--ink-muted); font-size:13.5px; max-width:70ch; }
+
+  .grid{ margin-top:18px; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+
+  .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 17px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:9px; }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .card-name{ font-family:"Source Serif 4"; font-size:16.5px; font-weight:600; line-height:1.3; }
+  .badge{ flex:none; font-family:"IBM Plex Mono"; font-size:10.5px; font-weight:600; letter-spacing:.03em; padding:3px 8px; border-radius:5px; white-space:nowrap; }
+  .b-preclinical{ background:var(--grade-pre-bg); color:var(--grade-pre-ink); border:1px solid var(--grade-pre-bd); }
+  .b-phase1{ background:var(--grade-p1-bg); color:var(--grade-p1-ink); }
+  .b-phase2{ background:var(--grade-p2-bg); color:var(--grade-p2-ink); }
+  .b-phase3{ background:var(--grade-p3-bg); color:var(--grade-p3-ink); }
+  .b-approved{ background:var(--grade-ap-bg); color:var(--grade-ap-ink); }
+
+  .card-oneliner{ font-size:13px; color:var(--ink-muted); font-style:italic; }
+  .card-desc{ font-size:13px; color:var(--ink-muted); }
+  .card-facts{ margin-top:2px; display:flex; flex-direction:column; gap:3px; font-size:12px; }
+  .fact{ display:flex; gap:6px; }
+  .fact-k{ color:var(--ink-faint); flex:none; width:64px; font-family:"IBM Plex Mono"; font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; padding-top:2px; }
+  .fact-v{ color:var(--ink-muted); }
+  .status-pill{ display:inline-block; font-size:10.5px; font-family:"IBM Plex Mono"; padding:1px 7px; border-radius:99px; border:1px solid var(--border-strong); color:var(--ink-faint); }
+  .status-recruiting{ color:var(--g-nk); border-color:var(--g-nk); }
+  .card-tags{ display:flex; gap:6px; flex-wrap:wrap; }
+  .tag{ font-size:10px; font-family:"IBM Plex Mono"; padding:2px 7px; border-radius:99px; }
+  .card-source{ margin-top:auto; padding-top:9px; border-top:1px solid var(--border); font-size:12px; }
+  .card-source a{ text-decoration:none; }
+  .card-source a:hover{ text-decoration:underline; }
+
+  .empty{ margin-top:16px; padding:30px; text-align:center; color:var(--ink-faint); font-size:13.5px; border:1px dashed var(--border-strong); border-radius:8px; }
+
+  /* ---------- Legend / methodology ---------- */
+  .legend{ margin-top:56px; padding:22px 24px; background:var(--surface); border:1px solid var(--border); border-radius:10px; }
+  .legend h2{ font-size:15px; font-weight:600; font-family:"IBM Plex Sans"; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-muted); }
+  .legend-grades{ margin-top:14px; display:flex; flex-wrap:wrap; gap:10px 22px; }
+  .legend-grade{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-muted); }
+  .legend p{ margin:14px 0 0; font-size:13px; color:var(--ink-muted); max-width:80ch; }
+  .legend p + p{ margin-top:8px; }
+
+  footer{ margin-top:40px; padding-top:20px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  @media (max-width:640px){
+    .bar-row{ grid-template-columns:1fr; row-gap:4px; }
+    .bar-count{ text-align:left; }
+    .fact-k{ width:58px; }
+  }
+</style>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="kicker">Molecular Immuno-Oncology Reference · Compiled <b>Sep 2026</b></div>
+    <h1>RTK II Immunotherapy Atlas</h1>
+    <p class="dek">A graded, filterable map of immunotherapy approaches worldwide relevant to <strong>IDH-wildtype glioblastoma, RTK II (RTK2) methylation subclass</strong> — organized by mechanism, from checkpoint vaccines to CD8⁺ adoptive transfer, with each entry staged by clinical evidence.</p>
+    <div class="meta-row">
+      <span><b>27</b> approaches tracked</span>
+      <span><b>5</b> mechanism groups</span>
+      <span>Sources: ClinicalTrials.gov, sponsor releases, peer-reviewed literature</span>
+    </div>
+    <div class="callout">
+      <b>Not medical advice.</b> This atlas is a research-organization aid for discussion with a treating neuro-oncologist. RTK II is a DNA-methylation subclass identified after surgery, not a treatment indication most trials enroll by — nearly every entry below enrolls on IDH-wildtype glioblastoma histology broadly, not RTK II status specifically. Evidence that a subtype-stratified DNA-methylation signature correlates with tumor T-cell infiltration and survival exists (Neuro-Oncology, 2021) but subtype-specific immunotherapy outcome data remains sparse — treat mechanism fit, not subtype-matching, as the reason each entry is listed.
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="stats" id="stats"></div>
+
+  <div class="overview">
+    <h2>Entries by mechanism</h2>
+    <div class="bars" id="bars"></div>
+  </div>
+
+  <div class="controls">
+    <div class="controls-row">
+      <div class="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="q" type="text" placeholder="Search name, sponsor, location, target…" autocomplete="off">
+      </div>
+      <select id="grade-filter">
+        <option value="all">Any evidence stage (incl. preclinical)</option>
+        <option value="approved">Approved only</option>
+        <option value="phase3">Phase 3+</option>
+        <option value="phase2">Phase 2+</option>
+        <option value="phase1">Phase 1+ (excludes preclinical)</option>
+      </select>
+      <label class="toggle"><input type="checkbox" id="recruiting-only"> Recruiting only</label>
+      <button class="clear-btn" id="clear">Reset filters</button>
+    </div>
+    <div class="controls-row" id="group-chips" style="margin-top:10px;"></div>
+    <div class="result-count" id="result-count"></div>
+  </div>
+
+  <div id="sections"></div>
+
+  <div class="legend">
+    <h2>How the evidence grade works</h2>
+    <div class="legend-grades" id="legend-grades"></div>
+    <p><b>Grading basis:</b> stage reflects the most advanced <em>publicly reported</em> clinical stage for that specific approach — not a claim of proven efficacy at that stage. A Phase 1 entry with a strong early signal (e.g. the ANKTIVA + NK combination below) is noted in its description; grade alone does not encode response rate.</p>
+    <p><b>Scope:</b> "recruiting" reflects registry status at time of research (Sep 2026) and can change — always re-check ClinicalTrials.gov, the EU CTR, or the named registry before contacting a site. Locations list trial sponsor/site geography where known; several device- and cell-therapy trials run at a small number of specialized centers only.</p>
+  </div>
+
+  <footer>
+    <span>RTK II Immunotherapy Atlas — research reference, last compiled September 2026.</span>
+    <span>Not affiliated with any sponsor, hospital, or registry listed.</span>
+  </footer>
+</div>
+
+<script>
+const GROUPS = {
+  tcell:   { label:"T-Cell Activation",              short:"T-CELL",  desc:"Checkpoint blockade, cancer vaccines, oncolytic viruses and T-cell engagers that switch on T cells in place, without removing them from the body." },
+  nk:      { label:"NK Cell Response",                short:"NK",      desc:"Natural killer cells, engineered or infused, that pattern-recognize and destroy tumor cells directly — including ones that have hidden from T cells." },
+  stem:    { label:"Stem-Cell Delivery",              short:"STEM",    desc:"Tumor-tropic neural or mesenchymal stem cells used as a delivery vehicle to carry virus or cytokine payloads deep into the resection cavity." },
+  anktiva: { label:"IL-15 Superagonists (Anktiva-like)", short:"IL-15", desc:"ANKTIVA and related IL-15 receptor agonists that expand NK cells and CD8⁺ memory T cells body-wide without provoking regulatory T cells." },
+  cd8:     { label:"CD8⁺ Isolation & Adoptive Transfer", short:"CD8",   desc:"TIL and CAR-T programs that isolate, arm, or expand a patient's own CD8⁺ T cells outside the body, then reinfuse them." },
+};
+
+const GROUP_ORDER = ["tcell","nk","stem","anktiva","cd8"];
+
+const GRADES = {
+  preclinical: { label:"Preclinical", order:0, cls:"b-preclinical" },
+  phase1:      { label:"Phase 1",     order:1, cls:"b-phase1" },
+  phase2:      { label:"Phase 2",     order:2, cls:"b-phase2" },
+  phase3:      { label:"Phase 3",     order:3, cls:"b-phase3" },
+  approved:    { label:"Approved",    order:4, cls:"b-approved" },
+};
+
+const ENTRIES = [
+  { id:"dcvax-l", name:"DCVax-L", groups:["tcell"], grade:"phase3", gradeLabel:"Phase 3 · UK review pending",
+    status:"regulatory-review", sponsor:"Northwest Biotherapeutics / Advent Bioservices", country:"Multinational (US/UK/DE/CA)",
+    oneLiner:"Autologous dendritic-cell vaccine primed with the patient's own tumor lysate.",
+    desc:"Dendritic cells are extracted, pulsed with antigens from the patient's resected tumor, then reinfused to train circulating T cells to recognize residual glioblastoma. A 331-patient Phase 3 reported an external-control-adjusted survival benefit; a UK MHRA marketing-authorization decision has been pending since December 2023.",
+    src:"https://www.thebraintumourcharity.org/news/research-news/trial-finds-dcvax-l-may-prolong-the-lives-of-those-living-with-a-glioblastoma/", srcLabel:"Brain Tumour Charity" },
+
+  { id:"delytact", name:"Delytact (teserpaturev / G47Δ)", groups:["tcell"], grade:"approved", gradeLabel:"Approved — Japan only",
+    status:"marketed", sponsor:"Daiichi Sankyo / IMSUT, University of Tokyo", country:"Japan",
+    oneLiner:"Triple-mutated oncolytic herpes simplex virus injected directly into the tumor bed.",
+    desc:"Replicates selectively inside tumor cells, lysing them while releasing antigens that prime a systemic T-cell response. Received conditional, time-limited approval from Japan's MHLW in June 2021 — the first oncolytic virus approved for any primary brain cancer. Not approved outside Japan.",
+    src:"https://www.onclive.com/view/oncolytic-virus-teserpaturev-approved-in-japan-for-malignant-glioma", srcLabel:"OncLive" },
+
+  { id:"ipi-nivo-rt", name:"Ipilimumab + Nivolumab + Radiotherapy", groups:["tcell"], grade:"phase3", gradeLabel:"Phase 2/3",
+    status:"recruiting", sponsor:"NCI / University of California network", country:"US",
+    oneLiner:"Dual checkpoint blockade (CTLA-4 + PD-1) added to standard radiotherapy.",
+    desc:"Releases the brakes on tumor-reactive T cells system-wide rather than isolating one target. Enrolling newly diagnosed, MGMT-unmethylated glioblastoma against a chemoradiotherapy control arm at multiple UC-system sites.",
+    src:"https://clinicaltrials.ucdavis.edu/glioblastoma", srcLabel:"UC Davis trial listing" },
+
+  { id:"survaxm", name:"SurVaxM", groups:["tcell"], grade:"phase2", gradeLabel:"Phase 2b (SURVIVE)",
+    status:"active", sponsor:"MimiVax / Roswell Park", country:"US",
+    oneLiner:"Peptide vaccine against survivin, an anti-apoptosis protein glioblastoma over-expresses.",
+    desc:"A Phase IIa in 64 newly-diagnosed patients reported median overall survival of 25.9 months. The randomized, placebo-controlled Phase 2b (≈247 patients, NCT05163080) is underway; an interim safety review cleared it to continue unmodified.",
+    src:"https://ascopubs.org/doi/10.1200/JCO.22.00996", srcLabel:"J Clin Oncol" },
+
+  { id:"neoantigen-vax", name:"Personalized Neoantigen Vaccine", groups:["tcell"], grade:"phase1", gradeLabel:"Phase Ib",
+    status:"completed", sponsor:"Dana-Farber / Broad Institute / MIT", country:"US",
+    oneLiner:"Custom-built vaccine targeting each patient's unique tumor mutations.",
+    desc:"Sequencing identifies mutations unique to the resected tumor; a matched peptide vaccine drives circulating, polyfunctional CD4⁺/CD8⁺ T cells shown to migrate into the intracranial tumor. Response was strongest in patients not on dexamethasone, which blunts the effect.",
+    src:"https://www.nature.com/articles/s41586-018-0792-9", srcLabel:"Nature" },
+
+  { id:"amg596", name:"AMG 596 (EGFRvIII BiTE)", groups:["tcell"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"unknown", sponsor:"Amgen", country:"US",
+    oneLiner:"Bispecific antibody that physically clips a T cell onto an EGFRvIII⁺ tumor cell.",
+    desc:"Engages CD3 on any nearby T cell and drags it onto tumor cells bearing EGFRvIII, a mutation present in roughly 30% of IDH-wildtype GBM. Early-phase and target-restricted — confirm current program status with the sponsor before relying on it.",
+    src:"https://ascopubs.org/doi/10.1200/JCO.2019.37.15_suppl.TPS2071", srcLabel:"J Clin Oncol, trial-in-progress" },
+
+  { id:"tgx-007", name:"TGX-007", groups:["tcell"], grade:"phase1", gradeLabel:"Phase 1/2",
+    status:"recruiting", sponsor:"Academic gene-therapy sponsor", country:"US",
+    oneLiner:"Dual-payload gene therapy: direct tumor killing plus immune activation.",
+    desc:"Delivers two genetic payloads to the tumor bed — one cytotoxic, one designed to switch on an anti-tumor immune response. Listed among new 2025–2026 brain-tumor trials.",
+    src:"https://braintumor.org/news/new-brain-tumor-clinical-trials-july-2025-june-2026/", srcLabel:"National Brain Tumor Society" },
+
+  { id:"anktiva-thank", name:"ANKTIVA + PD-L1 t-haNK (QUILT-3.078)", groups:["nk","anktiva"], grade:"phase2", gradeLabel:"Phase 2",
+    status:"active", sponsor:"ImmunityBio", country:"US",
+    oneLiner:"IL-15 superagonist paired with an off-the-shelf, PD-L1-targeted NK cell line, plus bevacizumab and Tumor Treating Fields.",
+    desc:"ANKTIVA expands the patient's own NK and CD8⁺ T cells; the infused PD-L1 t-haNK cells attack independent of tumor mutation status. A chemo-free recurrent-GBM cohort reported 100% disease control in an initial 5 patients (2 near-complete responses); 19 of 23 treated remain alive with median overall survival not yet reached.",
+    src:"https://immunitybio.com/initial-data-shows100-disease-control-in-5-out-of-5-patients-with-recurrent-glioblastoma-with-two-patients-in-near-complete-response-treated-with-immunitybios-anktiva-nk-cell-therapy-p/", srcLabel:"ImmunityBio" },
+
+  { id:"royan-nk", name:"Allogeneic NK Cell Infusion", groups:["nk"], grade:"phase2", gradeLabel:"Phase 2",
+    status:"recruiting", sponsor:"Royan Institute", country:"Iran",
+    oneLiner:"Donor-derived, lab-activated NK cells infused directly against glioma.",
+    desc:"Tests repeated infusions of active allogeneic NK cells, which recognize and kill tumor cells that have downregulated MHC-I to hide from T cells — a pattern-recognition route T-cell therapies miss. NCT06687681.",
+    src:"https://www.withpower.com/trial/phase-1-glioma-9-2021-50ed0", srcLabel:"Registry summary (NCT06687681)" },
+
+  { id:"mda-nk", name:"Engineered NK Cells (TGF-βR2 / NR3C1 knockout)", groups:["nk"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"MD Anderson Cancer Center", country:"US",
+    oneLiner:"Gene-edited NK cells resistant to the tumor's TGF-β and steroid signals.",
+    desc:"Deletes two receptors glioblastoma normally uses to disarm immune cells locally, so infused NK cells keep attacking inside the immunosuppressive tumor microenvironment. NCT04991870.",
+    src:"https://www.mdanderson.org/patients-family/diagnosis-treatment/clinical-trials/clinical-trials-index/clinical-trials-detail.ID2020-0960.html", srcLabel:"MD Anderson (NCT04991870)" },
+
+  { id:"car-nk92-her2", name:"CAR-NK92 (HER2-targeted)", groups:["nk"], grade:"phase1", gradeLabel:"Early clinical / case series",
+    status:"unknown", sponsor:"Academic hospital program", country:"Europe",
+    oneLiner:"Off-the-shelf NK-92 cell line engineered with a HER2-targeting receptor.",
+    desc:"NK-92 is an immortalized NK cell line that can be manufactured off-the-shelf rather than drawn from each patient, then armed with a HER2 CAR. Small compassionate-use case series in recurrent GBM reported a favorable safety profile — early clinical signal, not a formal registered trial.",
+    src:"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6868035/", srcLabel:"CAR-NK for glioblastoma, review" },
+
+  { id:"nch-nk", name:"NK Cells for Pediatric High-Grade / Diffuse Hemispheric Glioma", groups:["nk"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"Nationwide Children's Hospital", country:"US",
+    oneLiner:"NK cell infusion tested in pediatric high-grade and diffuse hemispheric glioma.",
+    desc:"Evaluates tolerability and early efficacy of NK cell infusion in pediatric brain tumors — useful as a mechanism reference, though the enrolled population is pediatric, not adult RTK II glioblastoma.",
+    src:"https://www.nationwidechildrens.org/", srcLabel:"Nationwide Children's Hospital" },
+
+  { id:"fate-ft536", name:"FT536 (CAR-NK, MICA/MICB-targeted)", groups:["nk"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"Fate Therapeutics", country:"US",
+    oneLiner:"iPSC-derived, off-the-shelf CAR-NK cell targeting stress proteins tumors display.",
+    desc:"Manufactured from a single engineered stem cell line rather than each patient's own cells, then dosed against MICA/MICB — stress ligands broadly expressed across solid tumors. Trial is pan-solid-tumor, not GBM-specific.",
+    src:"https://crisprmedicinenews.com/news/ind-update-gene-edited-car-natural-killer-cell-therapy-for-solid-tumours/", srcLabel:"CRISPR Medicine News" },
+
+  { id:"nsc-crad", name:"NSC-CRAd-S-pk7", groups:["stem"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"completed", sponsor:"City of Hope", country:"US",
+    oneLiner:"Neural stem cells used as a delivery vehicle for an oncolytic adenovirus.",
+    desc:"Tumor-tropic neural stem cells home to residual disease around the resection cavity and shield the virus from immune clearance en route, then release it to infect and lyse remaining tumor cells. First-in-human dose-escalation completed in newly diagnosed high-grade glioma.",
+    src:"https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(21)00245-X/abstract", srcLabel:"Lancet Oncology" },
+
+  { id:"insc-il15", name:"iNSC Secreting RANTES + IL-15", groups:["stem"], grade:"preclinical", gradeLabel:"Preclinical",
+    status:"unknown", sponsor:"Academic research", country:"US",
+    oneLiner:"Engineered stem cells that chemically draw CAR-T cells into the tumor and keep them fed.",
+    desc:"Induced neural stem cells are engineered to secrete RANTES (a chemokine that recruits T cells) and IL-15 (which sustains them), boosting CAR-T migration roughly sixfold and expansion threefold in mouse models versus CAR-T alone.",
+    src:"https://www.nature.com/nature-index/topics/l4/neural-stem-cell-applications-in-glioma-therapy", srcLabel:"Nature Index" },
+
+  { id:"msc-ov-dipg", name:"MSC-Delivered Oncolytic Virus", groups:["stem"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"MD Anderson Cancer Center", country:"US",
+    oneLiner:"Mesenchymal stem cells ferrying oncolytic virus into diffuse pontine glioma.",
+    desc:"GMP-manufactured mesenchymal stem cells are loaded with oncolytic virus and infused, homing to the tumor and protecting the virus from clearance before it reaches the tumor bed.",
+    src:"https://aacrjournals.org/clincancerres/article/27/6/1766/671778/Mesenchymal-Stem-Cells-Successfully-Deliver", srcLabel:"Clinical Cancer Research" },
+
+  { id:"intranasal-nsc", name:"Intranasal NSC + Oncolytic Virus", groups:["stem"], grade:"preclinical", gradeLabel:"Preclinical",
+    status:"unknown", sponsor:"Academic research", country:"Lab-stage",
+    oneLiner:"Non-invasive nose-to-brain stem-cell delivery route, no brain injection required.",
+    desc:"Loads neural stem cells with virus and delivers them intranasally; pharmacologic modulation of the nasal lining extends how long the cells linger there, improving how many reach the tumor. Survival benefit shown in mouse models only so far.",
+    src:"https://www.nature.com/nature-index/topics/l4/neural-stem-cell-applications-in-glioma-therapy", srcLabel:"Nature Index" },
+
+  { id:"anktiva-fda", name:"ANKTIVA (nogapendekin alfa inbakicept)", groups:["anktiva"], grade:"approved", gradeLabel:"FDA-approved (different cancer)",
+    status:"marketed", sponsor:"ImmunityBio", country:"US",
+    oneLiner:"First-in-class IL-15 superagonist — the platform behind every \"Anktiva-like\" approach.",
+    desc:"Fuses IL-15 to an IL-15Rα/Fc backbone so it persists in circulation and selectively expands NK cells and CD8⁺ memory T cells without triggering regulatory T cells. FDA-approved in 2024 for BCG-unresponsive bladder cancer, not glioblastoma — its GBM use is investigational (see the QUILT-3.078 combination above).",
+    src:"https://immunitybio.com/immunitybio-announces-fda-approval-of-anktiva-first-in-class-il-15-receptor-agonist-for-bcg-unresponsive-non-muscle-invasive-bladder-cancer/", srcLabel:"ImmunityBio" },
+
+  { id:"nktr-255", name:"NKTR-255", groups:["anktiva"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"Nektar Therapeutics", country:"US",
+    oneLiner:"A second IL-15 receptor agonist, structurally distinct from Anktiva.",
+    desc:"Polymer-conjugated IL-15 agonist designed to expand NK and CD8⁺ T cell populations with a more controlled pharmacokinetic profile. In Phase 1 across solid tumors; no dedicated glioblastoma cohort yet.",
+    src:"https://www.onclive.com/view/superagonists-pull-il-15-into-focus-in-oncology-care", srcLabel:"OncLive" },
+
+  { id:"alt-803-pre", name:"ALT-803 (preclinical precursor)", groups:["anktiva"], grade:"preclinical", gradeLabel:"Preclinical (historical)",
+    status:"completed", sponsor:"Academic research (Altor BioScience program)", country:"US",
+    oneLiner:"The original IL-15 superagonist construct that Anktiva evolved from.",
+    desc:"In a murine glioblastoma model, ALT-803 alone — and more strongly combined with anti-PD-1 or stereotactic radiosurgery — produced durable antitumor responses including complete remissions. Its clinical-grade descendant is Anktiva.",
+    src:"https://ncbi.nlm.nih.gov/pmc/articles/PMC4696021", srcLabel:"Murine GBM model study" },
+
+  { id:"til-karolinska", name:"TIL Therapy for Glioblastoma", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"active", sponsor:"Karolinska University Hospital / Iovance data-share", country:"Sweden",
+    oneLiner:"A patient's own tumor-infiltrating CD8⁺ T cells, harvested, expanded a thousandfold, and reinfused.",
+    desc:"Because TILs are drawn directly from the tumor, they are naturally polyclonal — able to recognize a broad set of tumor antigens rather than the single target a CAR or BiTE is locked to.",
+    src:"https://www.iovance.com/clinical-trials/", srcLabel:"Iovance Biotherapeutics" },
+
+  { id:"giant-trial", name:"GIANT Trial (TIL Profiling)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"Academic / Iovance collaboration", country:"US",
+    oneLiner:"Maps which gliomas actually contain expandable CD8⁺ T cells before attempting TIL therapy.",
+    desc:"A spatial multi-omic screen identifies which tumors are \"permissive\" to TIL expansion, aiming to select immune-excluded patients most likely to benefit before manufacturing begins. NCT06816927.",
+    src:"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12045381/", srcLabel:"Spatial multi-omic framework, preprint" },
+
+  { id:"b7h3-tiantan", name:"B7-H3 CAR-T", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"Beijing Tiantan Hospital", country:"China",
+    oneLiner:"CD8⁺ T cells engineered to recognize B7-H3, a checkpoint protein glioblastoma over-expresses.",
+    desc:"B7-H3 is expressed on the great majority of glioblastomas but largely absent from normal brain tissue, making it an attractive CAR-T target. NCT05241392.",
+    src:"https://clinicaltrials.gov/study/NCT05241392", srcLabel:"ClinicalTrials.gov (NCT05241392)" },
+
+  { id:"b7h3-zhejiang", name:"B7-H3 CAR-T (pilot study)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"2nd Affiliated Hospital, Zhejiang University", country:"China",
+    oneLiner:"A second, independent B7-H3 CAR-T program for recurrent or refractory glioblastoma.",
+    desc:"Parallel pilot study of the same B7-H3 target, run independently of the Beijing Tiantan program — an early sign of how many CD8⁺ CAR-T groups worldwide are converging on this antigen. NCT04385173.",
+    src:"https://clinicaltrials.gov/study/NCT04385173", srcLabel:"ClinicalTrials.gov (NCT04385173)" },
+
+  { id:"esync-egfrviii", name:"E-SYNC CAR-T (EGFRvIII)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"UCSF", country:"US",
+    oneLiner:"CD8⁺ CAR-T cells targeting the tumor-specific EGFRvIII mutation, after lymphodepletion.",
+    desc:"Lymphodepleting chemotherapy first clears out competing immune cells, giving infused CAR-T cells more room to expand once they encounter EGFRvIII⁺ tumor cells.",
+    src:"https://clinicaltrials.ucsf.edu/glioblastoma", srcLabel:"UCSF trial listing" },
+
+  { id:"wl276-cd276", name:"WL276 CAR-T (CD276)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"recruiting", sponsor:"Sponsor per registry", country:"Verify with registry",
+    oneLiner:"CD8⁺ CAR-T against CD276 (another name for B7-H3) for recurrent or progressive glioblastoma.",
+    desc:"Started November 2024, estimated completion 2027. NCT06691308 — confirm current site locations on ClinicalTrials.gov before contacting.",
+    src:"https://clinicaltrials.gov/study/NCT06691308", srcLabel:"ClinicalTrials.gov (NCT06691308)" },
+
+  { id:"cd70-pediatric", name:"IL-8R-Modified CD70 CAR-T", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1 · not yet recruiting",
+    status:"not-yet-recruiting", sponsor:"Academic pediatric consortium", country:"US",
+    oneLiner:"CD8⁺ CAR-T co-engineered with an IL-8 receptor to help it traffic into pediatric high-grade glioma.",
+    desc:"Adds an IL-8 receptor to the CAR-T construct so cells follow the IL-8 gradient tumors produce, helping migration into the tumor instead of stalling at its edge. Targets CD70⁺ pediatric high-grade glioma and DIPG — a mechanism reference, not an adult-GBM trial. NCT06946680, expected to open July 2026.",
+    src:"https://clinicaltrials.gov/study/NCT06946680", srcLabel:"ClinicalTrials.gov (NCT06946680)" },
+];
+
+const STATUS_LABEL = {
+  "recruiting":"Recruiting", "active":"Active", "completed":"Completed",
+  "not-yet-recruiting":"Not yet recruiting", "marketed":"Marketed / approved",
+  "regulatory-review":"Under regulatory review", "unknown":"Status unconfirmed",
+};
+
+/* ---------- Build static chrome ---------- */
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
+
+// Stat tiles
+(function buildStats(){
+  const total = ENTRIES.length;
+  const approved = ENTRIES.filter(e=>e.grade==="approved").length;
+  const recruiting = ENTRIES.filter(e=>e.status==="recruiting").length;
+  const regions = new Set(ENTRIES.map(e=>e.country)).size;
+  const stats = [
+    [total, "approaches tracked"],
+    [approved, "reached approval (any indication)"],
+    [recruiting, "actively recruiting trials"],
+    [regions, "countries / regions represented"],
+  ];
+  const wrap = document.getElementById("stats");
+  stats.forEach(([n,l])=>{
+    const s = el("div","stat");
+    s.appendChild(el("div","stat-num mono", n));
+    s.appendChild(el("div","stat-label", l));
+    wrap.appendChild(s);
+  });
+})();
+
+// Overview bars
+(function buildBars(){
+  const max = Math.max(...GROUP_ORDER.map(g=>ENTRIES.filter(e=>e.groups.includes(g)).length));
+  const wrap = document.getElementById("bars");
+  GROUP_ORDER.forEach(g=>{
+    const count = ENTRIES.filter(e=>e.groups.includes(g)).length;
+    const row = el("div","bar-row");
+    const label = el("div","bar-label");
+    label.innerHTML = `<span class="bar-dot" style="background:var(--g-${g})"></span>${GROUPS[g].label}`;
+    const track = el("div","bar-track");
+    const fill = el("div","bar-fill");
+    fill.style.width = (count/max*100)+"%";
+    fill.style.background = `var(--g-${g})`;
+    track.appendChild(fill);
+    row.appendChild(label); row.appendChild(track);
+    row.appendChild(el("div","bar-count mono", count));
+    wrap.appendChild(row);
+  });
+})();
+
+// Group filter chips
+let activeGroups = new Set(GROUP_ORDER);
+const chipsWrap = document.getElementById("group-chips");
+GROUP_ORDER.forEach(g=>{
+  const chip = el("button","chip");
+  chip.type="button";
+  chip.setAttribute("aria-pressed","true");
+  chip.style.setProperty("--gc", `var(--g-${g})`);
+  chip.style.setProperty("--tint", `var(--g-${g}-tint)`);
+  chip.innerHTML = `<span class="dot" style="background:var(--g-${g})"></span>${GROUPS[g].label}`;
+  chip.addEventListener("click", ()=>{
+    if(activeGroups.has(g)){ activeGroups.delete(g); chip.setAttribute("aria-pressed","false"); }
+    else { activeGroups.add(g); chip.setAttribute("aria-pressed","true"); }
+    render();
+  });
+  chipsWrap.appendChild(chip);
+});
+
+// Legend grades
+(function buildLegend(){
+  const wrap = document.getElementById("legend-grades");
+  Object.entries(GRADES).sort((a,b)=>a[1].order-b[1].order).forEach(([key,g])=>{
+    const item = el("div","legend-grade");
+    item.innerHTML = `<span class="badge ${g.cls}">${g.label}</span>`;
+    wrap.appendChild(item);
+  });
+})();
+
+const qInput = document.getElementById("q");
+const gradeFilter = document.getElementById("grade-filter");
+const recruitingOnly = document.getElementById("recruiting-only");
+const sectionsWrap = document.getElementById("sections");
+const resultCount = document.getElementById("result-count");
+
+function matches(e){
+  const q = qInput.value.trim().toLowerCase();
+  if(q){
+    const hay = [e.name,e.sponsor,e.country,e.oneLiner,e.desc].join(" ").toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  if(!e.groups.some(g=>activeGroups.has(g))) return false;
+  const gf = gradeFilter.value;
+  if(gf!=="all" && GRADES[e.grade].order < GRADES[gf].order) return false;
+  if(recruitingOnly.checked && e.status!=="recruiting") return false;
+  return true;
+}
+
+function cardHTML(e){
+  const grade = GRADES[e.grade];
+  const statusCls = e.status==="recruiting" ? "status-pill status-recruiting" : "status-pill";
+  const tags = e.groups.map(g=>`<span class="tag" style="background:var(--g-${g}-tint);color:var(--g-${g})">${GROUPS[g].short}</span>`).join("");
+  return `
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">${e.name}</div>
+        <span class="badge ${grade.cls}">${e.gradeLabel}</span>
+      </div>
+      <div class="card-oneliner">${e.oneLiner}</div>
+      <div class="card-desc">${e.desc}</div>
+      <div class="card-facts">
+        <div class="fact"><span class="fact-k">Sponsor</span><span class="fact-v">${e.sponsor}</span></div>
+        <div class="fact"><span class="fact-k">Location</span><span class="fact-v">${e.country}</span></div>
+        <div class="fact"><span class="fact-k">Status</span><span class="fact-v"><span class="${statusCls}">${STATUS_LABEL[e.status]}</span></span></div>
+      </div>
+      <div class="card-tags">${tags}</div>
+      <div class="card-source"><a href="${e.src}" target="_blank" rel="noopener">Source: ${e.srcLabel} ↗</a></div>
+    </div>`;
+}
+
+function render(){
+  sectionsWrap.innerHTML = "";
+  let totalShown = 0;
+  GROUP_ORDER.forEach(g=>{
+    if(!activeGroups.has(g)) return;
+    const items = ENTRIES.filter(e=>e.groups.includes(g) && matches(e));
+    if(items.length===0) return;
+    totalShown += items.length;
+    const section = el("div","section");
+    const head = el("div","section-head");
+    head.style.setProperty("--gc",`var(--g-${g})`);
+    head.innerHTML = `<h2>${GROUPS[g].label}</h2><span class="section-count mono">${items.length} ${items.length===1?"entry":"entries"}</span>`;
+    section.appendChild(head);
+    section.appendChild(el("div","section-desc", GROUPS[g].desc));
+    const grid = el("div","grid");
+    items.sort((a,b)=>GRADES[b.grade].order-GRADES[a.grade].order).forEach(e=>grid.insertAdjacentHTML("beforeend", cardHTML(e)));
+    section.appendChild(grid);
+    sectionsWrap.appendChild(section);
+  });
+  if(totalShown===0){
+    sectionsWrap.appendChild(el("div","empty","No approaches match these filters. Try clearing the search or grade filter."));
+  }
+  resultCount.textContent = `Showing ${totalShown} of ${ENTRIES.length} approaches`;
+}
+
+qInput.addEventListener("input", render);
+gradeFilter.addEventListener("change", render);
+recruitingOnly.addEventListener("change", render);
+document.getElementById("clear").addEventListener("click", ()=>{
+  qInput.value=""; gradeFilter.value="all"; recruitingOnly.checked=false;
+  activeGroups = new Set(GROUP_ORDER);
+  chipsWrap.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","true"));
+  render();
+});
+
+render();
+</script>
