@@ -135,6 +135,11 @@
 
   .grid{ margin-top:18px; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
 
+  /* ---------- Alternative approaches (final section) ---------- */
+  .alt-section{ margin-top:56px; padding-top:8px; border-top:1px dashed var(--border-strong); }
+  .alt-head{ border-left:3px solid var(--ink-faint); }
+  .tag-neutral{ background:var(--surface-2); color:var(--ink-faint); }
+
   .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 17px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:9px; }
   .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
   .card-name{ font-family:"Source Serif 4"; font-size:16.5px; font-weight:600; line-height:1.3; }
@@ -225,6 +230,16 @@
   </div>
 
   <div id="sections"></div>
+
+  <div class="alt-section">
+    <div class="section-head alt-head">
+      <h2>Alternative &amp; Repurposed-Drug Approaches</h2>
+      <span class="section-count mono" id="alt-count"></span>
+    </div>
+    <div class="section-desc">Non-immunotherapy drugs — mostly antiparasitic, antifungal, or metabolic agents already approved for other conditions — being tested or proposed against glioblastoma by a different route (direct tumor-cell toxicity, metabolic disruption) rather than by activating the immune system. Evidence here is mixed: several of these trials reported <em>no benefit</em>, which is exactly why they're graded and sourced the same way as everything above rather than presented as a hopeful list.</div>
+    <div class="callout" style="margin-top:14px;"><b>On ivermectin specifically:</b> no registered human clinical trial testing ivermectin against glioblastoma was found as of this compilation — only cell-culture and mouse-model studies. The trial number NCT05318469 tests ivermectin plus a checkpoint inhibitor in <em>metastatic triple-negative breast cancer</em> at Cedars-Sinai — not glioblastoma, and not an NIH trial (NIH sponsors only a small fraction of the trials on ClinicalTrials.gov; most, including this one, are sponsored by the treating institution). A newer, unrelated trial (NCT07487805, University of Florida) is testing ivermectin plus checkpoint inhibitors across solid tumors generally, but glioblastoma is not among its listed conditions.</div>
+    <div class="grid" id="alt-grid"></div>
+  </div>
 
   <div class="legend">
     <h2>How the evidence grade works</h2>
@@ -474,6 +489,54 @@ const ENTRIES = [
     src:"https://www.nature.com/articles/s41591-024-02875-1", srcLabel:"Nature Medicine, Phase 1 results" },
 ];
 
+// Non-immunotherapy repurposed-drug approaches — rendered in their own final section,
+// not part of the 5 mechanism groups above or their filters.
+const ALT_ENTRIES = [
+  { id:"cusp9v3", name:"CUSP9v3 (9 Repurposed Drugs + Metronomic Temozolomide)", tagLabel:"Repurposed-drug combination", grade:"phase1", gradeLabel:"Phase I/II · completed",
+    status:"completed", sponsor:"University of Ulm", country:"Ulm, Germany",
+    oneLiner:"Nine non-oncology drugs (aprepitant, minocycline, disulfiram, celecoxib, sertraline, captopril, itraconazole, ritonavir, auranofin), each individually re-tasked against a different tumor survival pathway, layered onto low-dose temozolomide.",
+    desc:"The logic is metabolic and pathway-based, not immune: each repurposed drug blocks one mechanism glioblastoma uses to survive chemotherapy, on the theory that blocking many at once is harder for the tumor to route around. The proof-of-concept trial in 10 patients with recurrent glioblastoma established the combination was safe and tolerable at full doses of all nine drugs.",
+    trial:"https://clinicaltrials.gov/study/NCT02770378", trialLabel:"NCT02770378",
+    outcomesNote:"Reported in the Phase Ib/IIa research paper above (safety established; not a randomized efficacy result).",
+    src:"https://academic.oup.com/noa/article/3/1/vdab075/6308707", srcLabel:"Neuro-Oncology Advances, Phase Ib/IIa results" },
+
+  { id:"disulfiram-direct", name:"Disulfiram + Copper (DIRECT Trial)", tagLabel:"Repurposed drug · negative result", grade:"phase3", gradeLabel:"Phase 2/3 · negative",
+    status:"completed", sponsor:"Sahlgrenska University Hospital", country:"Sweden",
+    oneLiner:"Repurposes disulfiram (an alcoholism drug) plus copper, proposed to poison tumor cells via a copper-dependent enzyme-blocking effect, added to chemotherapy.",
+    desc:"A randomized controlled trial in recurrent glioblastoma found adding disulfiram and copper to chemotherapy did not improve survival compared with chemotherapy alone, and caused significantly more high-grade and serious adverse events (34% vs 11%, and 41% vs 16%, respectively). Included as an important negative result — not a promising option.",
+    trial:"https://clinicaltrials.gov/study/NCT02678975", trialLabel:"NCT02678975",
+    outcomesUrl:"https://jamanetwork.com/journals/jamanetworkopen/fullarticle/2802966", outcomesLabel:"Published results, JAMA Network Open",
+    src:"https://pmc.ncbi.nlm.nih.gov/articles/PMC10066460/", srcLabel:"Randomized clinical trial, PMC" },
+
+  { id:"posaconazole", name:"Posaconazole (Phase 0)", tagLabel:"Repurposed drug · inconclusive", grade:"phase1", gradeLabel:"Phase 0 · terminated",
+    status:"terminated", sponsor:"Penn State Milton S. Hershey Medical Center", country:"Hershey, PA, US",
+    oneLiner:"An antifungal drug tested for whether it reaches meaningful concentrations inside glioblastoma tissue and the brain, as a first step before any efficacy claim.",
+    desc:"A \"Phase 0\" trial only asks whether a drug gets to the tumor at active concentrations — a pharmacology check, not an efficacy trial. This one was terminated early due to slow patient accrual, so it did not reach a conclusion either way.",
+    outcomesNote:"Terminated before completion due to slow accrual — no efficacy or pharmacology conclusion was reported.",
+    src:"https://cdn.clinicaltrials.gov/large-docs/75/NCT04825275/Prot_SAP_000.pdf", srcLabel:"ClinicalTrials.gov protocol (NCT04825275)" },
+
+  { id:"metformin-knog", name:"Metformin + Temozolomide (KNOG-1501)", tagLabel:"Repurposed drug · negative result", grade:"phase2", gradeLabel:"Phase 2 · negative",
+    status:"completed", sponsor:"Korean Neuro-Oncology Group, multicenter", country:"South Korea",
+    oneLiner:"Repurposes metformin, a diabetes drug proposed to disrupt tumor cell energy metabolism, added to low-dose temozolomide.",
+    desc:"A randomized, double-blind, placebo-controlled Phase 2 trial in recurrent or refractory glioblastoma found metformin plus low-dose temozolomide was well tolerated but did not improve survival over temozolomide alone. Included as a negative result — a separate, uncontrolled Phase I/II maintenance-therapy study in newly diagnosed glioblastoma reported a more promising 54.5% two-year survival rate, but that finding has not yet been confirmed in a randomized trial.",
+    outcomesNote:"Negative — no survival benefit over temozolomide alone. See the published trial results above.",
+    src:"https://pubmed.ncbi.nlm.nih.gov/37278858/", srcLabel:"KNOG-1501, Phase 2 trial (PubMed)" },
+
+  { id:"metformin-statin-obs", name:"Metformin + Simvastatin (Observational)", tagLabel:"Retrospective observation, not a trial", grade:"preclinical", gradeLabel:"Observational only",
+    status:"completed", sponsor:"Academic research", country:"Multi-site",
+    oneLiner:"Two widely-used, cheap generic drugs (a diabetes drug and a cholesterol drug) proposed to work together by pushing tumor cells into a dormant, non-dividing state.",
+    desc:"Cell-culture experiments showed the combination produces a stronger antitumor effect than either drug alone. A retrospective, non-randomized review of 85 glioma patients found a survival difference associated with metformin/statin use — real hypothesis-generating evidence, but not a controlled trial, so it cannot rule out that healthier or differently-managed patients were simply more likely to be on these drugs already.",
+    outcomesNote:"No randomized trial has tested this combination in glioblastoma yet — see the observational study above.",
+    src:"https://www.thelancet.com/journals/ebiom/article/PIIS2352-3964(23)00049-X/fulltext", srcLabel:"eBioMedicine, clinical and translational evidence" },
+
+  { id:"ivermectin", name:"Ivermectin", tagLabel:"Preclinical only — no human GBM trial", grade:"preclinical", gradeLabel:"Preclinical",
+    status:"unknown", sponsor:"Multiple academic labs (no clinical sponsor for GBM)", country:"Lab-stage",
+    oneLiner:"An antiparasitic drug shown in cell-culture and mouse studies to slow glioma cell growth by disrupting several cancer-related signaling pathways.",
+    desc:"Cell-line and mouse studies report ivermectin inhibits glioma cell growth and, delivered as an intranasal nanocapsule formulation, shrinks tumors more than free ivermectin in mice. No registered human clinical trial testing ivermectin specifically against glioblastoma exists as of this compilation — it has not been tested in glioblastoma patients. Two ivermectin + checkpoint-inhibitor trials are registered, but neither studies glioblastoma: NCT05318469 (Cedars-Sinai) enrolls metastatic triple-negative breast cancer, and NCT07487805 / ICONIC (University of Florida, not yet recruiting) enrolls solid tumors generally without listing glioblastoma as a condition. Neither is NIH-sponsored.",
+    outcomesNote:"Preclinical (cell-line and mouse) evidence only — reported in the studies linked above. No glioblastoma patient has been treated with ivermectin in a registered trial.",
+    src:"https://pubmed.ncbi.nlm.nih.gov/37814994/", srcLabel:"Ivermectin as a potential therapeutic strategy for glioma, PubMed" },
+];
+
 const STATUS_LABEL = {
   "recruiting":"Recruiting", "active":"Active", "completed":"Completed",
   "not-yet-recruiting":"Not yet recruiting", "marketed":"Marketed / approved",
@@ -599,6 +662,39 @@ function cardHTML(e){
       </div>
     </div>`;
 }
+
+function altCardHTML(e){
+  const grade = GRADES[e.grade];
+  const statusCls = e.status==="recruiting" ? "status-pill status-recruiting" : "status-pill";
+  return `
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">${e.name}</div>
+        <span class="badge ${grade.cls}">${e.gradeLabel}</span>
+      </div>
+      <div class="card-oneliner">${e.oneLiner}</div>
+      <div class="card-desc">${e.desc}</div>
+      <div class="card-facts">
+        <div class="fact"><span class="fact-k">Sponsor</span><span class="fact-v">${e.sponsor}</span></div>
+        <div class="fact"><span class="fact-k">Location</span><span class="fact-v">${e.country}</span></div>
+        <div class="fact"><span class="fact-k">Status</span><span class="fact-v"><span class="${statusCls}">${STATUS_LABEL[e.status]}</span></span></div>
+      </div>
+      <div class="card-tags"><span class="tag tag-neutral">${e.tagLabel}</span></div>
+      <div class="card-source">
+        ${e.trial ? `<a href="${e.trial}" target="_blank" rel="noopener">Trial page: ${e.trialLabel} ↗</a>` : ""}
+        ${(e.trial && e.src !== e.trial) ? `<a href="${e.src}" target="_blank" rel="noopener">Research: ${e.srcLabel} ↗</a>` : ""}
+        ${!e.trial ? `<a href="${e.src}" target="_blank" rel="noopener">${e.src.includes("clinicaltrials.gov") ? "Trial page" : "Research"}: ${e.srcLabel} ↗</a>` : ""}
+        ${e.outcomesUrl ? `<a href="${e.outcomesUrl}" target="_blank" rel="noopener">Outcomes so far: ${e.outcomesLabel} ↗</a>` : `<span class="src-note">Outcomes so far: ${e.outcomesNote}</span>`}
+        ${e.testimonialUrl ? `<a href="${e.testimonialUrl}" target="_blank" rel="noopener">Patient story: ${e.testimonialLabel} ↗</a>` : ""}
+      </div>
+    </div>`;
+}
+
+(function buildAltSection(){
+  const grid = document.getElementById("alt-grid");
+  ALT_ENTRIES.forEach(e => grid.insertAdjacentHTML("beforeend", altCardHTML(e)));
+  document.getElementById("alt-count").textContent = `${ALT_ENTRIES.length} entries`;
+})();
 
 function render(){
   sectionsWrap.innerHTML = "";
