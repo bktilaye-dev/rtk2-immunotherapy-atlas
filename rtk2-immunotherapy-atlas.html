@@ -158,6 +158,7 @@
   .card-source{ margin-top:auto; padding-top:9px; border-top:1px solid var(--border); font-size:12px; display:flex; flex-direction:column; gap:4px; }
   .card-source a{ text-decoration:none; }
   .card-source a:hover{ text-decoration:underline; }
+  .src-note{ color:var(--ink-faint); font-style:italic; }
 
   .empty{ margin-top:16px; padding:30px; text-align:center; color:var(--ink-faint); font-size:13.5px; border:1px dashed var(--border-strong); border-radius:8px; }
 
@@ -184,7 +185,7 @@
     <h1>RTK II Immunotherapy Atlas</h1>
     <p class="dek">A graded, filterable map of immunotherapy approaches worldwide relevant to <strong>IDH-wildtype glioblastoma, RTK II (RTK2) methylation subclass</strong> — organized by mechanism, from checkpoint vaccines to CD8⁺ adoptive transfer, with each entry staged by clinical evidence.</p>
     <div class="meta-row">
-      <span><b>27</b> approaches tracked</span>
+      <span><b>28</b> approaches tracked</span>
       <span><b>5</b> mechanism groups</span>
       <span>Sources: ClinicalTrials.gov, sponsor releases, peer-reviewed literature</span>
     </div>
@@ -230,6 +231,8 @@
     <div class="legend-grades" id="legend-grades"></div>
     <p><b>Grading basis:</b> stage reflects the most advanced <em>publicly reported</em> clinical stage for that specific approach — not a claim of proven efficacy at that stage. A Phase 1 entry with a strong early signal (e.g. the ANKTIVA + NK combination below) is noted in its description; grade alone does not encode response rate.</p>
     <p><b>Scope:</b> "recruiting" reflects registry status at time of research (Sep 2026) and can change — always re-check ClinicalTrials.gov, the EU CTR, or the named registry before contacting a site. Locations list trial sponsor/site geography where known; several device- and cell-therapy trials run at a small number of specialized centers only.</p>
+    <p><b>Outcomes so far:</b> every card names the most advanced result publicly reported for that specific approach — a published readout, a sponsor results release, or an honest "no results posted yet" where the trial hasn't reported. This is separate from the evidence-stage badge: a Phase 1 entry can carry a striking early signal, and a Phase 2/3 entry can carry a negative one (see NRG-BN007 above).</p>
+    <p><b>Patient stories:</b> linked only where a named, on-the-record patient account exists for that specific program — most are sponsor- or hospital-published and are not a substitute for the trial's actual response-rate data. Most entries here are too early-stage, too small, or not English-language-documented to have a public patient story yet; that's noted rather than guessed at.</p>
   </div>
 
   <footer>
@@ -263,12 +266,15 @@ const ENTRIES = [
     oneLiner:"Autologous dendritic-cell vaccine primed with the patient's own tumor lysate.",
     desc:"Dendritic cells are extracted, pulsed with antigens from the patient's resected tumor, then reinfused to train circulating T cells to recognize residual glioblastoma. The pivotal Phase 3 trial (331 patients) reported an external-control-adjusted survival benefit; a UK MHRA marketing-authorization decision has been pending since December 2023.",
     trial:"https://clinicaltrials.gov/study/NCT00045968", trialLabel:"NCT00045968",
+    outcomesUrl:"https://pubmed.ncbi.nlm.nih.gov/36394838/", outcomesLabel:"Phase 3 published results (PubMed)",
+    testimonialUrl:"https://www.uclahealth.org/news/story/18-year-brain-tumor-survivor-thriving-from-3rd-awake-brain-surgery-immunotherapy-vaccine-from-dr-linda-liau-at-ucla", testimonialLabel:"Patient story, UCLA Health",
     src:"https://www.thebraintumourcharity.org/news/research-news/trial-finds-dcvax-l-may-prolong-the-lives-of-those-living-with-a-glioblastoma/", srcLabel:"Brain Tumour Charity" },
 
   { id:"delytact", name:"Delytact (teserpaturev / G47Δ)", groups:["tcell"], grade:"approved", gradeLabel:"Approved — Japan only",
     status:"marketed", sponsor:"Daiichi Sankyo / IMSUT, University of Tokyo", country:"Japan",
     oneLiner:"Triple-mutated oncolytic herpes simplex virus injected directly into the tumor bed.",
     desc:"Replicates selectively inside tumor cells, lysing them while releasing antigens that prime a systemic T-cell response. Received conditional, time-limited approval from Japan's MHLW in June 2021 — the first oncolytic virus approved for any primary brain cancer. Not approved outside Japan; not registered on ClinicalTrials.gov.",
+    outcomesUrl:"https://www.nature.com/articles/s41591-022-01897-x", outcomesLabel:"Phase 2 published results (Nature Medicine)",
     src:"https://www.onclive.com/view/oncolytic-virus-teserpaturev-approved-in-japan-for-malignant-glioma", srcLabel:"OncLive" },
 
   { id:"nrg-bn007", name:"Ipilimumab + Nivolumab vs. Temozolomide (NRG-BN007)", groups:["tcell"], grade:"phase2", gradeLabel:"Phase 2/3 · Phase 2 negative",
@@ -276,6 +282,7 @@ const ENTRIES = [
     oneLiner:"Dual checkpoint blockade (CTLA-4 + PD-1) tested against temozolomide alone in newly diagnosed, MGMT-unmethylated glioblastoma.",
     desc:"Tested whether releasing two separate immune brakes at once (ipilimumab + nivolumab) outperforms standard chemotherapy plus radiotherapy. Reported in 2024: the Phase II stage did not improve progression-free survival over temozolomide, and the trial will not advance to Phase III. Included as a meaningful negative result — not an open or promising trial.",
     trial:"https://clinicaltrials.gov/study/NCT04396860", trialLabel:"NCT04396860",
+    outcomesNote:"Negative result — no PFS benefit. See the research link above for the full readout.",
     src:"https://www.nrgoncology.org/Home/News/Post/dual-immune-checkpoint-inhibition-with-radiotherapy-does-not-improve-progression-free-survival-for-patients-with-newly-diagnosed-mgmt-unmethylated-glioblastoma/", srcLabel:"NRG Oncology, results summary" },
 
   { id:"survaxm", name:"SurVaxM", groups:["tcell"], grade:"phase2", gradeLabel:"Phase 2b (SURVIVE)",
@@ -283,12 +290,15 @@ const ENTRIES = [
     oneLiner:"Peptide vaccine against survivin, an anti-apoptosis protein glioblastoma over-expresses.",
     desc:"A Phase IIa in 64 newly-diagnosed patients reported median overall survival of 25.9 months. The randomized, placebo-controlled Phase 2b (≈247 patients) is underway; an interim safety review cleared it to continue unmodified.",
     trial:"https://clinicaltrials.gov/study/NCT05163080", trialLabel:"NCT05163080 (SURVIVE)",
+    outcomesUrl:"https://www.roswellpark.org/newsroom/202212-clinical-trial-roswell-parks-survaxm-glioblastoma-vaccine-reveals-promising-results", outcomesLabel:"Results summary, Roswell Park",
+    testimonialUrl:"https://www.roswellpark.org/cancertalk/202402/glioblastoma-vaccine-clinical-trial-cassandras-story", testimonialLabel:"Cassandra's story, Roswell Park",
     src:"https://ascopubs.org/doi/10.1200/JCO.22.00996", srcLabel:"J Clin Oncol, Phase IIa results" },
 
   { id:"neoantigen-vax", name:"Personalized Neoantigen Vaccine", groups:["tcell"], grade:"phase1", gradeLabel:"Phase Ib",
     status:"completed", sponsor:"Dana-Farber / Broad Institute / MIT", country:"US",
     oneLiner:"Custom-built vaccine targeting each patient's unique tumor mutations.",
     desc:"Sequencing identifies mutations unique to the resected tumor; a matched peptide vaccine drives circulating, polyfunctional CD4⁺/CD8⁺ T cells shown to migrate into the intracranial tumor. Response was strongest in patients not on dexamethasone, which blunts the effect.",
+    outcomesNote:"Immune-response results are reported in the research paper above.",
     src:"https://www.nature.com/articles/s41586-018-0792-9", srcLabel:"Nature, Phase Ib trial" },
 
   { id:"amg596", name:"AMG 596 (EGFRvIII BiTE)", groups:["tcell"], grade:"phase1", gradeLabel:"Phase 1",
@@ -296,12 +306,14 @@ const ENTRIES = [
     oneLiner:"Bispecific antibody that physically clips a T cell onto an EGFRvIII⁺ tumor cell.",
     desc:"Engages CD3 on any nearby T cell and drags it onto tumor cells bearing EGFRvIII, a mutation present in roughly 30% of IDH-wildtype GBM. The first-in-human trial completed enrollment in December 2021; full results were not yet published as of this compilation — confirm current program status with Amgen.",
     trial:"https://clinicaltrials.gov/study/NCT03296696", trialLabel:"NCT03296696",
+    outcomesNote:"Trial completed December 2021; results have not been published yet.",
     src:"https://ascopubs.org/doi/10.1200/JCO.2019.37.15_suppl.TPS2071", srcLabel:"J Clin Oncol, trial-in-progress" },
 
   { id:"tgx-007", name:"TGX-007", groups:["tcell"], grade:"phase1", gradeLabel:"Phase 1/2",
     status:"recruiting", sponsor:"Academic gene-therapy sponsor", country:"US",
     oneLiner:"Dual-payload gene therapy: direct tumor killing plus immune activation.",
     desc:"Delivers two genetic payloads to the tumor bed — one cytotoxic, one designed to switch on an anti-tumor immune response. Listed among new 2025–2026 brain-tumor trials.",
+    outcomesNote:"Early-phase — no results posted yet.",
     src:"https://braintumor.org/news/new-brain-tumor-clinical-trials-july-2025-june-2026/", srcLabel:"National Brain Tumor Society" },
 
   { id:"anktiva-thank", name:"ANKTIVA + PD-L1 t-haNK (QUILT-3.078)", groups:["nk","anktiva"], grade:"phase2", gradeLabel:"Phase 2",
@@ -309,12 +321,14 @@ const ENTRIES = [
     oneLiner:"IL-15 superagonist paired with an off-the-shelf, PD-L1-targeted NK cell line, plus bevacizumab and Tumor Treating Fields.",
     desc:"ANKTIVA expands the patient's own NK and CD8⁺ T cells; the infused PD-L1 t-haNK cells attack independent of tumor mutation status. A chemo-free recurrent-GBM cohort reported 100% disease control in an initial 5 patients (2 near-complete responses); 19 of 23 treated remain alive with median overall survival not yet reached. 14 patients enrolled in the single-arm Phase 2 stage, with up to 20 more planned in a randomized Phase 2B stage across four U.S. sites.",
     trial:"https://clinicaltrials.gov/study/NCT06061809", trialLabel:"NCT06061809 (QUILT-3.078)",
+    outcomesUrl:"https://immunitybio.com/immunitybio-reports-median-overall-survival-not-yet-reached-and-lymphopenia-reversed-in-recurrent-glioblastoma-patients-receiving-anktiva-plus-car-nk-chemo-free-therapy/", outcomesLabel:"Updated survival data, ImmunityBio",
     src:"https://immunitybio.com/initial-data-shows100-disease-control-in-5-out-of-5-patients-with-recurrent-glioblastoma-with-two-patients-in-near-complete-response-treated-with-immunitybios-anktiva-nk-cell-therapy-p/", srcLabel:"ImmunityBio" },
 
   { id:"royan-nk", name:"Allogeneic NK Cell Infusion (Intrathecal)", groups:["nk"], grade:"phase2", gradeLabel:"Phase 2",
     status:"recruiting", sponsor:"Kian Immune Cell Company (PI: Marzieh Ebrahimi)", country:"Rasoul Akram Hospital, Tehran, Iran",
     oneLiner:"Donor-derived, lab-activated NK cells infused directly against high-grade glioma.",
     desc:"Tests repeated intrathecal infusions of active allogeneic NK cells, which recognize and kill tumor cells that have downregulated MHC-I to hide from T cells — a pattern-recognition route T-cell therapies miss. Multi-center Phase II.",
+    outcomesNote:"Recruiting — no results posted yet.",
     src:"https://clinicaltrials.gov/study/NCT06687681", srcLabel:"ClinicalTrials.gov (NCT06687681)" },
 
   { id:"mda-nk", name:"Engineered NK Cells (TGF-βR2 / NR3C1 knockout)", groups:["nk"], grade:"phase1", gradeLabel:"Phase 1",
@@ -322,12 +336,14 @@ const ENTRIES = [
     oneLiner:"Gene-edited NK cells resistant to the tumor's TGF-β and steroid signals.",
     desc:"Deletes two receptors glioblastoma normally uses to disarm immune cells locally, so infused NK cells keep attacking inside the immunosuppressive tumor microenvironment. Recurrent Grade 4 astrocytoma (glioblastoma).",
     trial:"https://clinicaltrials.gov/study/NCT04991870", trialLabel:"NCT04991870",
+    outcomesNote:"Recruiting — no results posted yet.",
     src:"https://www.mdanderson.org/patients-family/diagnosis-treatment/clinical-trials/clinical-trials-index/clinical-trials-detail.ID2020-0960.html", srcLabel:"MD Anderson, trial page" },
 
   { id:"car-nk92-her2", name:"CAR-NK92 (HER2-targeted)", groups:["nk"], grade:"phase1", gradeLabel:"Early clinical / case series",
     status:"unknown", sponsor:"Academic hospital program", country:"Europe",
     oneLiner:"Off-the-shelf NK-92 cell line engineered with a HER2-targeting receptor.",
     desc:"NK-92 is an immortalized NK cell line that can be manufactured off-the-shelf rather than drawn from each patient, then armed with a HER2 CAR. Small compassionate-use case series in recurrent GBM reported a favorable safety profile — early clinical signal, not a formal registered trial.",
+    outcomesNote:"Safety outcomes are reported in the case-series review above.",
     src:"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6868035/", srcLabel:"CAR-NK for glioblastoma, review" },
 
   { id:"nch-nk", name:"NK Cells for Pediatric/Young-Adult Brain Tumors", groups:["nk"], grade:"phase1", gradeLabel:"Phase 1",
@@ -335,6 +351,7 @@ const ENTRIES = [
     oneLiner:"Locoregional, ex vivo-expanded NK cell infusions for recurrent, progressive, or refractory brain tumors.",
     desc:"Evaluates tolerability and early efficacy of NK cell infusion in patients ages 1–39 with difficult-to-treat brain tumors (excludes DIPG/DMG) — useful as a mechanism reference, though the enrolled population skews pediatric/young-adult, not adult RTK II glioblastoma.",
     trial:"https://clinicaltrials.gov/study/NCT04254419", trialLabel:"NCT04254419",
+    outcomesNote:"Recruiting — no results posted yet.",
     src:"https://www.nationwidechildrens.org/research/clinical-research/cancer-clinical-research/neurooncology-studies/nk-brain-tumor", srcLabel:"Nationwide Children's Hospital" },
 
   { id:"fate-ft536", name:"FT536 (CAR-NK, MICA/MICB-targeted)", groups:["nk"], grade:"phase1", gradeLabel:"Phase 1 · terminated",
@@ -342,36 +359,43 @@ const ENTRIES = [
     oneLiner:"iPSC-derived, off-the-shelf CAR-NK cell targeting stress proteins tumors display.",
     desc:"Manufactured from a single engineered stem cell line rather than each patient's own cells, then dosed against MICA/MICB — stress ligands broadly expressed across solid tumors. The pan-solid-tumor (not GBM-specific) Phase 1 trial was terminated by the sponsor in August 2023 after enrolling only 5 patients.",
     trial:"https://clinicaltrials.gov/study/NCT05395052", trialLabel:"NCT05395052",
+    outcomesNote:"Terminated after 5 patients enrolled; no efficacy results were published.",
     src:"https://crisprmedicinenews.com/news/ind-update-gene-edited-car-natural-killer-cell-therapy-for-solid-tumours/", srcLabel:"CRISPR Medicine News" },
 
   { id:"nsc-crad", name:"NSC-CRAd-S-pk7", groups:["stem"], grade:"phase1", gradeLabel:"Phase 1",
-    status:"completed", sponsor:"City of Hope", country:"US",
+    status:"completed", sponsor:"Northwestern Memorial Hospital / City of Hope", country:"US",
     oneLiner:"Neural stem cells used as a delivery vehicle for an oncolytic adenovirus.",
-    desc:"Tumor-tropic neural stem cells home to residual disease around the resection cavity and shield the virus from immune clearance en route, then release it to infect and lyse remaining tumor cells. First-in-human dose-escalation completed in newly diagnosed high-grade glioma.",
+    desc:"Tumor-tropic neural stem cells home to residual disease around the resection cavity and shield the virus from immune clearance en route, then release it to infect and lyse remaining tumor cells. First-in-human dose-escalation in 12 patients with newly diagnosed high-grade glioma reported median progression-free survival of 9.1 months and median overall survival of 18.4 months, with one grade-3 viral meningitis event and no treatment-related deaths.",
+    outcomesUrl:"https://ascopost.com/news/july-2021/oncolytic-adenovirus-for-malignant-glioma-feasibility-and-safety/", outcomesLabel:"Results summary (The ASCO Post)",
     src:"https://www.thelancet.com/journals/lanonc/article/PIIS1470-2045(21)00245-X/abstract", srcLabel:"Lancet Oncology" },
 
   { id:"insc-il15", name:"iNSC Secreting RANTES + IL-15", groups:["stem"], grade:"preclinical", gradeLabel:"Preclinical",
     status:"unknown", sponsor:"Academic research (UNC / City of Hope collaborators)", country:"US",
     oneLiner:"Engineered stem cells that chemically draw CAR-T cells into the tumor and keep them fed.",
     desc:"Induced neural stem cells are engineered to secrete RANTES (a chemokine that recruits T cells) and IL-15 (which sustains them), boosting CAR-T migration roughly sixfold and expansion threefold in mouse models, reducing established GBM xenografts over 2,000-fold within a week and producing durable remission through 60 days versus CAR-T alone.",
+    outcomesNote:"Mouse-model results only — reported in the study above; no patients have been treated.",
     src:"https://pmc.ncbi.nlm.nih.gov/articles/PMC10658508/", srcLabel:"Peer-reviewed study, PMC" },
 
   { id:"msc-ov-dipg", name:"MSC-Delivered Oncolytic Virus", groups:["stem"], grade:"phase1", gradeLabel:"Phase 1",
     status:"recruiting", sponsor:"MD Anderson Cancer Center", country:"US",
     oneLiner:"Mesenchymal stem cells ferrying oncolytic virus into diffuse pontine glioma.",
     desc:"GMP-manufactured mesenchymal stem cells are loaded with oncolytic virus and infused, homing to the tumor and protecting the virus from clearance before it reaches the tumor bed.",
+    outcomesNote:"Reported in the research paper above.",
     src:"https://aacrjournals.org/clincancerres/article/27/6/1766/671778/Mesenchymal-Stem-Cells-Successfully-Deliver", srcLabel:"Clinical Cancer Research" },
 
   { id:"intranasal-nsc", name:"Intranasal NSC + Oncolytic Virus", groups:["stem"], grade:"preclinical", gradeLabel:"Preclinical",
     status:"unknown", sponsor:"Academic research (Northwestern University)", country:"US",
     oneLiner:"Non-invasive nose-to-brain stem-cell delivery route, no brain injection required.",
     desc:"Loads neural stem cells with oncolytic virus and delivers them intranasally; pharmacologic modulation of the nasal lining extends how long the cells linger there, augmenting migration to the tumor and conferring a marked survival benefit in glioma-bearing mice. Preclinical only so far.",
+    outcomesNote:"Mouse-model results only — no patients have been treated.",
     src:"https://www.thno.org/v09p2071.htm", srcLabel:"Theranostics, peer-reviewed study" },
 
   { id:"anktiva-fda", name:"ANKTIVA (nogapendekin alfa inbakicept)", groups:["anktiva"], grade:"approved", gradeLabel:"FDA-approved (different cancer)",
     status:"marketed", sponsor:"ImmunityBio", country:"US",
     oneLiner:"First-in-class IL-15 superagonist — the platform behind every \"Anktiva-like\" approach.",
     desc:"Fuses IL-15 to an IL-15Rα/Fc backbone so it persists in circulation and selectively expands NK cells and CD8⁺ memory T cells without triggering regulatory T cells. FDA-approved in 2024 for BCG-unresponsive bladder cancer, not glioblastoma — its GBM use is investigational (see the QUILT-3.078 combination above).",
+    outcomesUrl:"https://immunitybio.com/anktiva-with-bcg-demonstrates-96-survival-from-bladder-cancer-at-three-years-with-median-survival-not-yet-reached-in-bcg-unresponsive-high-grade-papillary-only-non-muscle-invasive-bladder-cancer/", outcomesLabel:"3-year survival update (bladder cancer), ImmunityBio",
+    testimonialUrl:"https://anktiva.com/patient-stories", testimonialLabel:"Patient stories, Anktiva.com (bladder cancer, its approved use)",
     src:"https://immunitybio.com/immunitybio-announces-fda-approval-of-anktiva-first-in-class-il-15-receptor-agonist-for-bcg-unresponsive-non-muscle-invasive-bladder-cancer/", srcLabel:"ImmunityBio" },
 
   { id:"nktr-255", name:"NKTR-255", groups:["anktiva"], grade:"phase1", gradeLabel:"Phase 1b/2 · completed",
@@ -379,18 +403,21 @@ const ENTRIES = [
     oneLiner:"A second IL-15 receptor agonist, structurally distinct from Anktiva.",
     desc:"Polymer-conjugated IL-15 agonist designed to expand NK and CD8⁺ T cell populations with a more controlled pharmacokinetic profile. A solid-tumor combination study (with cetuximab) completed in 2023; other NKTR-255 combinations remain active in blood cancers. No dedicated glioblastoma cohort yet.",
     trial:"https://clinicaltrials.gov/study/NCT04616196", trialLabel:"NCT04616196",
+    outcomesNote:"Combination study completed; efficacy results for this cohort were not published.",
     src:"https://www.onclive.com/view/superagonists-pull-il-15-into-focus-in-oncology-care", srcLabel:"OncLive" },
 
   { id:"alt-803-pre", name:"ALT-803 (preclinical precursor)", groups:["anktiva"], grade:"preclinical", gradeLabel:"Preclinical (historical)",
     status:"completed", sponsor:"Academic research (Altor BioScience program)", country:"US",
     oneLiner:"The original IL-15 superagonist construct that Anktiva evolved from.",
     desc:"In a murine glioblastoma model, ALT-803 alone — and more strongly combined with anti-PD-1 or stereotactic radiosurgery — produced durable antitumor responses including complete remissions. Its clinical-grade descendant is Anktiva.",
+    outcomesNote:"Reported in the mouse-model study above (preclinical).",
     src:"https://ncbi.nlm.nih.gov/pmc/articles/PMC4696021", srcLabel:"Murine GBM model study" },
 
   { id:"til-karolinska", name:"TIL Manufacturing Research for Glioblastoma", groups:["cd8"], grade:"phase1", gradeLabel:"Early-phase research",
     status:"unknown", sponsor:"Karolinska Institutet / Karolinska University Hospital", country:"Sweden",
     oneLiner:"A patient's own tumor-infiltrating CD8⁺ T cells, harvested, expanded, and characterized for reinfusion.",
     desc:"Because TILs are drawn directly from the tumor, they are naturally polyclonal — able to recognize a broad set of tumor antigens rather than the single target a CAR or BiTE is locked to. Karolinska researchers established protocols to culture TILs from glioblastoma biopsies and identified tumor neoepitopes they recognize; this is translational/protocol-building research, not confirmed as an actively enrolling registered trial.",
+    outcomesNote:"Reported in the research paper above.",
     src:"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6298404/", srcLabel:"Peer-reviewed study, PMC" },
 
   { id:"duke-giant", name:"GIANT Trial (Nivolumab + Relatlimab)", groups:["tcell"], grade:"phase2", gradeLabel:"Phase 2",
@@ -398,18 +425,21 @@ const ENTRIES = [
     oneLiner:"Adds a second checkpoint inhibitor (LAG-3 blockade) to standard PD-1 blockade.",
     desc:"Multi-center, randomized Phase 2 testing whether relatlimab (an anti-LAG-3 antibody) combined with nivolumab (anti-PD-1) outperforms nivolumab alone in glioblastoma — releasing a second, distinct immune brake rather than isolating a single tumor antigen.",
     trial:"https://clinicaltrials.gov/study/NCT06816927", trialLabel:"NCT06816927",
+    outcomesNote:"Recruiting — no results posted yet.",
     src:"https://clinicaltrials.gov/study/NCT06816927", srcLabel:"ClinicalTrials.gov (NCT06816927)" },
 
   { id:"b7h3-tiantan", name:"B7-H3 CAR-T", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
     status:"active", sponsor:"Beijing Tiantan Hospital", country:"Beijing, China",
     oneLiner:"CD8⁺ T cells engineered to recognize B7-H3, a checkpoint protein glioblastoma over-expresses.",
     desc:"B7-H3 is expressed on the great majority of glioblastomas but largely absent from normal brain tissue, making it an attractive CAR-T target. Currently active but not enrolling new participants.",
+    outcomesNote:"Active but not enrolling — no results posted yet.",
     src:"https://clinicaltrials.gov/study/NCT05241392", srcLabel:"ClinicalTrials.gov (NCT05241392)" },
 
   { id:"b7h3-zhejiang", name:"B7-H3 CAR-T (pilot study)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
     status:"unknown", sponsor:"2nd Affiliated Hospital, Zhejiang University", country:"Hangzhou, China",
     oneLiner:"A second, independent B7-H3 CAR-T program for recurrent or refractory glioblastoma.",
     desc:"Parallel pilot study of the same B7-H3 target, run independently of the Beijing Tiantan program — an early sign of how many CD8⁺ CAR-T groups worldwide are converging on this antigen. Registry status hasn't updated recently; last known status was recruiting.",
+    outcomesNote:"No results posted yet.",
     src:"https://clinicaltrials.gov/study/NCT04385173", srcLabel:"ClinicalTrials.gov (NCT04385173)" },
 
   { id:"esync-egfrviii", name:"E-SYNC CAR-T (EGFRvIII-gated)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
@@ -417,19 +447,31 @@ const ENTRIES = [
     oneLiner:"A synthetic \"gate\": CD8⁺ CAR-T only switches on against EphA2/IL-13Rα2 after it senses EGFRvIII.",
     desc:"Uses a synNotch receptor that first detects the tumor-specific EGFRvIII mutation, then conditionally switches on a CAR against two more broadly expressed targets (EphA2 or IL-13Rα2) — aiming for both potency and tumor-restricted safety. Developed and manufactured entirely in-house at UCSF.",
     trial:"https://clinicaltrials.gov/study/NCT06186401", trialLabel:"NCT06186401",
+    outcomesNote:"Early enrollment — no results posted yet.",
     src:"https://braintumorcenter.ucsf.edu/clinical-trial/anti-egfrviii-synnotch-receptor-induced-anti-epha2-il-13ralpha2-car-e-sync-t-cells", srcLabel:"UCSF Brain Tumor Center" },
 
   { id:"wl276-cd276", name:"WL276 CAR-T (CD276)", groups:["cd8"], grade:"phase1", gradeLabel:"Early Phase 1 · not yet recruiting",
     status:"not-yet-recruiting", sponsor:"Beijing Immunochina Medical Science & Technology Co.", country:"Beijing, China",
     oneLiner:"CD8⁺ CAR-T against CD276 (another name for B7-H3) for recurrent or progressive glioblastoma.",
     desc:"Principal investigator affiliated with Chinese PLA General Hospital. Not yet recruiting — confirm current status on ClinicalTrials.gov before contacting.",
+    outcomesNote:"Not yet recruiting — no results.",
     src:"https://clinicaltrials.gov/study/NCT06691308", srcLabel:"ClinicalTrials.gov (NCT06691308)" },
 
   { id:"cd70-pediatric", name:"IL-8R-Modified CD70 CAR-T", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1 · not yet recruiting",
     status:"not-yet-recruiting", sponsor:"University of Florida", country:"Gainesville, FL, US",
     oneLiner:"CD8⁺ CAR-T co-engineered with an IL-8 receptor to help it traffic into pediatric high-grade glioma.",
     desc:"Adds an IL-8 receptor to the CAR-T construct so cells follow the IL-8 gradient tumors produce, helping migration into the tumor instead of stalling at its edge. Targets CD70⁺ pediatric high-grade glioma and DIPG — a mechanism reference, not an adult-GBM trial.",
+    outcomesNote:"Not yet recruiting — no results.",
     src:"https://clinicaltrials.gov/study/NCT06946680", srcLabel:"ClinicalTrials.gov (NCT06946680)" },
+
+  { id:"il13ra2-cart", name:"IL13Rα2 CAR-T (locoregional)", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
+    status:"completed", sponsor:"City of Hope / Mustang Bio (licensee)", country:"Duarte, CA, US",
+    oneLiner:"CD8⁺ CAR-T delivered directly into the tumor cavity and/or brain ventricles, targeting IL13Rα2.",
+    desc:"Delivering the CAR-T cells locoregionally (straight into the resection cavity or ventricles) lets them reach the brain without relying on systemic circulation. The largest CAR-T trial reported to date in any solid tumor: one patient achieved a complete, durable response; survival was associated with higher T-cell levels in the tumor before treatment.",
+    trial:"https://clinicaltrials.gov/study/NCT02208362", trialLabel:"NCT02208362",
+    outcomesUrl:"https://www.cityofhope.org/city-of-hope-developed-chimeric-antigen-receptor-car-t-cell-therapy-shows-clinical-activity-in", outcomesLabel:"Results summary, City of Hope",
+    testimonialUrl:"https://www.cityofhope.org/stories-of-hope/brain-cancer-no-match-for-immunotherapy-trial", testimonialLabel:"Peter Valadez's story, City of Hope",
+    src:"https://www.nature.com/articles/s41591-024-02875-1", srcLabel:"Nature Medicine, Phase 1 results" },
 ];
 
 const STATUS_LABEL = {
@@ -552,6 +594,8 @@ function cardHTML(e){
         ${e.trial ? `<a href="${e.trial}" target="_blank" rel="noopener">Trial page: ${e.trialLabel} ↗</a>` : ""}
         ${(e.trial && e.src !== e.trial) ? `<a href="${e.src}" target="_blank" rel="noopener">Research: ${e.srcLabel} ↗</a>` : ""}
         ${!e.trial ? `<a href="${e.src}" target="_blank" rel="noopener">${e.src.includes("clinicaltrials.gov") ? "Trial page" : "Research"}: ${e.srcLabel} ↗</a>` : ""}
+        ${e.outcomesUrl ? `<a href="${e.outcomesUrl}" target="_blank" rel="noopener">Outcomes so far: ${e.outcomesLabel} ↗</a>` : `<span class="src-note">Outcomes so far: ${e.outcomesNote}</span>`}
+        ${e.testimonialUrl ? `<a href="${e.testimonialUrl}" target="_blank" rel="noopener">Patient story: ${e.testimonialLabel} ↗</a>` : ""}
       </div>
     </div>`;
 }
