@@ -726,6 +726,7 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Tumor tissue (autologous lysate) + blood (monocyte-derived dendritic cells)",
     framework:"German \"individual healing attempt\" (Heilversuch) / hospital exemption — legal, not an efficacy approval.",
     cost:"~€23,000–26,000 per vaccination cycle (≥2 cycles typically needed); ~€65,000 for the first two cycles + mandatory diagnostics (€6,800–8,500). A 5-day immunogenic-cell-death add-on runs €6,000–11,000 more.",
+    insurance:"German statutory insurance rarely covers this without dispute; private German insurers sometimes reimburse partially, case-by-case, occasionally only after appeal or court order when standard options are exhausted. Not billed to non-German (e.g. US) insurance — expect to pay upfront and pursue reimbursement independently.",
     tier:"published", tierLabel:"Published case series",
     evidenceNote:"Single-institution case series in IDH-wildtype GBM reporting improved overall survival vs historical published data. Not randomized.",
     caution:null,
@@ -738,6 +739,7 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Tumor tissue or defined tumor antigens (varies by protocol) + blood",
     framework:"Japan's Act on the Safety of Regenerative Medicine — government-reviewed safety framework, not an efficacy review.",
     cost:"¥44,000–66,000 (~USD 300–450) per antigen is published; total course cost (multiple doses/antigens over weeks) is not publicly listed — request a full itemized quote.",
+    insurance:"Classified as \"Advanced Medical Care\" in Japan — approved for safety but not funded by Japan's National Health Insurance for general use, and not covered by foreign/international insurance. Fully out-of-pocket.",
     tier:"compassionate", tierLabel:"Compassionate-use case data only",
     evidenceNote:"No randomized glioblastoma survival/efficacy data located. Per-antigen pricing is published (¥44,000–66,000/antigen at Osaka ISEIKAI) — ask for a full itemized quote.",
     caution:null,
@@ -749,6 +751,7 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Blood only — not manufactured from tumor tissue",
     framework:"Japan's Act on the Safety of Regenerative Medicine.",
     cost:"Typical package reported around USD 20,000–50,000.",
+    insurance:"Same \"Advanced Medical Care\" classification as above — not covered by Japan's National Health Insurance or by foreign/international insurance. Fully out-of-pocket.",
     tier:"compassionate", tierLabel:"General claims, no GBM data",
     evidenceNote:"No glioblastoma-specific outcome data or patient testimonials located for these specific clinics.",
     caution:"Does not meet the \"from a tumor sample\" criterion — included because it performs NK/T-cell activation, but the product is not tumor-derived or tumor-antigen-specific.",
@@ -759,6 +762,7 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Blood and/or tumor material, varies by protocol (not independently confirmed)",
     framework:"German individual healing attempt.",
     cost:"Reported in the ~USD 100,000–127,000 range for a 1–3 week program in documented cases, with an 80% deposit required upfront before treatment begins.",
+    insurance:"The clinic states plainly it has no contracts with any statutory or private health insurance company and is not supported by charities or foundations — costs must be settled directly by the patient, with no insurance billing pathway offered at all.",
     tier:"none", tierLabel:"No published GBM data",
     evidenceNote:"No peer-reviewed glioblastoma outcome data located for this clinic specifically; the clinic does not publish outcome/survival data.",
     caution:"Independent reporting (Science-Based Medicine, others) has specifically named this clinic for selling unproven and ineffective therapies alongside legitimate ones — and GoFundMe banned fundraisers for Hallwang treatment in 2019. Scrutinize closely.",
@@ -769,7 +773,8 @@ const PRIVATE_PROVIDERS = [
     product:"Autologous dendritic-cell vaccine + lymphokine-activated killer (LAK) cells + activated NK cells, within a broader \"integrative\" protocol.",
     startingMaterial:"Blood and/or tumor material, varies by protocol (not independently confirmed)",
     framework:"US site offers non-cellular integrative services only; the cell-therapy component is delivered at the Tijuana, Mexico site, outside FDA oversight.",
-    cost:"~USD 49,800 for a 3-week Integrative Immunotherapy Program (published price); not directly billed to US insurance, though itemized bills are provided for possible reimbursement.",
+    cost:"~USD 49,800 for a 3-week Integrative Immunotherapy Program (published price).",
+    insurance:"Not billed directly to insurance; the clinic provides itemized invoices/codes patients can submit for possible out-of-network reimbursement, but coverage is not guaranteed and depends entirely on the individual plan.",
     tier:"none", tierLabel:"No published GBM data",
     evidenceNote:"No peer-reviewed glioblastoma outcome data located.",
     caution:"Cell therapy is bundled with a wider array of non-cellular \"integrative\" treatments — get a precise, itemized description of exactly what cell product is made and from what starting material.",
@@ -781,6 +786,7 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Not clearly documented as tumor-tissue-derived cell manufacturing",
     framework:"Operates outside FDA oversight (Mexico).",
     cost:"~USD 45,000–60,000 for the standard 3-week program (lodging, meals, and a 3-month home program included) — varies by individual protocol.",
+    insurance:"Cannot directly process US insurance claims (treatment center is in Mexico). PPO plans with out-of-country/out-of-network benefits sometimes reimburse partially if pre-verified; HMO plans typically won't. The clinic explicitly disclaims any guarantee of coverage or reimbursement.",
     tier:"none", tierLabel:"No published data",
     evidenceNote:"No peer-reviewed outcome data located; marketing material only. A published testimonial exists (linked below) for a stated stage IV glioblastoma case — weigh that single account against the complete absence of peer-reviewed data.",
     caution:"Weakest match to \"cell manufacturing\" on this list — branding emphasizes proprietary alternative-medicine protocols rather than a characterized, verifiable cell product. Lowest confidence of the group.",
@@ -792,6 +798,7 @@ const PRIVATE_CHECKLIST = [
   "Ask exactly what starting material is used — tumor tissue, blood, or both — and get the manufacturing/release protocol in writing, not just marketing language.",
   "Ask for anonymized outcome data for glioblastoma specifically, ideally from an independent (non-clinic) source, not testimonials.",
   "Get a complete, itemized, all-inclusive cost quote in writing before traveling — medical-tourism cancer clinics are a well-documented site of cost surprises.",
+  "Call your own insurer's out-of-network/international-benefits line before assuming any coverage — don't rely on the clinic's claim that reimbursement is possible; ask specifically for it in writing and pre-verify, not after the fact.",
   "Confirm which country's regulatory framework applies, what it actually reviews (safety vs. efficacy), and what recourse exists if something goes wrong.",
   "Bring it to the treating neuro-oncology team first — check whether pursuing this would conflict with, or delay, the standard-of-care and clinical-trial timing.",
 ];
@@ -810,6 +817,7 @@ function privateCardHTML(p){
         <div class="fact"><span class="fact-k">Made from</span><span class="fact-v">${p.startingMaterial}</span></div>
         <div class="fact"><span class="fact-k">Framework</span><span class="fact-v">${p.framework}</span></div>
         <div class="fact"><span class="fact-k">Est. cost</span><span class="fact-v">${p.cost}</span></div>
+        <div class="fact"><span class="fact-k">Insurance</span><span class="fact-v">${p.insurance}</span></div>
       </div>
       <div class="card-desc">${p.evidenceNote}</div>
       ${p.caution ? `<div class="caution-line"><span>⚠</span><span>${p.caution}</span></div>` : ""}
