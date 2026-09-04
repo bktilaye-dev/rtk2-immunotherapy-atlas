@@ -731,7 +731,7 @@ const PRIVATE_PROVIDERS = [
     evidenceNote:"Single-institution case series in IDH-wildtype GBM reporting improved overall survival vs historical published data. Not randomized.",
     caution:null,
     outcomesUrl:"https://pmc.ncbi.nlm.nih.gov/articles/PMC9954396/", outcomesLabel:"Published case series, PMC 2023",
-    testimonialUrl:"https://www.glioblastomamultiforme.it/en/emanueles-story/", testimonialLabel:"Emanuele's story (clinic-adjacent patient account, not independently verified)",
+    website:"https://www.iozk.de/en/", phone:"+49 221 4203 9925",
     link:"https://www.iozk.de/en/", linkLabel:"Clinic site" },
 
   { id:"seren-iseikai", name:"Seren Clinic & Osaka ISEIKAI Clinic", country:"Tokyo, Fukuoka, Nagoya, Kobe, Osaka — Japan",
@@ -744,6 +744,7 @@ const PRIVATE_PROVIDERS = [
     evidenceNote:"No randomized glioblastoma survival/efficacy data located. Per-antigen pricing is published (¥44,000–66,000/antigen at Osaka ISEIKAI) — ask for a full itemized quote.",
     caution:null,
     outcomesUrl:"https://pmc.ncbi.nlm.nih.gov/articles/PMC10696395/", outcomesLabel:"Independent study of patient experience with DC-vaccine clinics in Japan (not a survival/efficacy study)",
+    website:"https://serenclinic.jp/", phone:"Seren Clinic (Tokyo): 0120-784-788 (Japan toll-free) · Osaka ISEIKAI: see contact form",
     link:"http://www.meneki-clinic.jp/en/treatment/cost.html", linkLabel:"Osaka ISEIKAI, published fee schedule" },
 
   { id:"tokyo-nk-clinics", name:"Artisan Clinic Hibiya, Tokyo Cancer Clinic, Tokyo Relife Clinic", country:"Tokyo, Japan",
@@ -755,6 +756,8 @@ const PRIVATE_PROVIDERS = [
     tier:"compassionate", tierLabel:"General claims, no GBM data",
     evidenceNote:"No glioblastoma-specific outcome data or patient testimonials located for these specific clinics.",
     caution:"Does not meet the \"from a tumor sample\" criterion — included because it performs NK/T-cell activation, but the product is not tumor-derived or tumor-antigen-specific.",
+    website:"artisanclinichibiya.jp · tokyocancerclinic.jp · tokyo-relife.com",
+    phone:"Artisan Clinic Hibiya: 03-6205-8472 · Tokyo Cancer Clinic: +81 3-6380-8031 · Tokyo Relife Clinic: 0120-660-329",
     link:"https://tokyocancerclinic.jp/lang/en/treatment/patent/cell01/", linkLabel:"Tokyo Cancer Clinic, NK cell therapy" },
 
   { id:"hallwang", name:"Hallwang Private Oncology Clinic", country:"Dornstetten, Germany",
@@ -767,6 +770,7 @@ const PRIVATE_PROVIDERS = [
     evidenceNote:"No peer-reviewed glioblastoma outcome data located for this clinic specifically; the clinic does not publish outcome/survival data.",
     caution:"Independent reporting (Science-Based Medicine, others) has specifically named this clinic for selling unproven and ineffective therapies alongside legitimate ones — and GoFundMe banned fundraisers for Hallwang treatment in 2019. Scrutinize closely.",
     testimonialUrl:"https://www.hallwang-clinic.com/en/experiences/", testimonialLabel:"Clinic-published patient testimonials (not glioblastoma-specific, not independently verified)",
+    website:"https://www.hallwang-clinic.com/", phone:"+49 7443 9642 40",
     link:"https://sciencebasedmedicine.org/the-deadly-false-hope-of-german-cancer-clinics/", linkLabel:"Independent investigative critique, Science-Based Medicine" },
 
   { id:"issels", name:"Issels Immuno-Oncology", country:"Santa Barbara, CA (US) & Tijuana, Mexico",
@@ -779,6 +783,7 @@ const PRIVATE_PROVIDERS = [
     evidenceNote:"No peer-reviewed glioblastoma outcome data located.",
     caution:"Cell therapy is bundled with a wider array of non-cellular \"integrative\" treatments — get a precise, itemized description of exactly what cell product is made and from what starting material.",
     testimonialUrl:"https://issels.com/testimonials/index.html", testimonialLabel:"Clinic-published patient testimonials, 40+ videos (not glioblastoma-specific, not independently verified)",
+    website:"https://issels.com/", phone:"+1 (805) 962-2126 (Santa Barbara, CA)",
     link:"https://bestcancertreatmentmexico.com/center/issels-immuno-oncology/", linkLabel:"Program overview" },
 
   { id:"hope4cancer", name:"Hope4Cancer Institute", country:"Rosarito, Mexico",
@@ -791,6 +796,7 @@ const PRIVATE_PROVIDERS = [
     evidenceNote:"No peer-reviewed outcome data located; marketing material only. A published testimonial exists (linked below) for a stated stage IV glioblastoma case — weigh that single account against the complete absence of peer-reviewed data.",
     caution:"Weakest match to \"cell manufacturing\" on this list — branding emphasizes proprietary alternative-medicine protocols rather than a characterized, verifiable cell product. Lowest confidence of the group.",
     testimonialUrl:"https://hope4cancer.com/patient-journeys/aaron-stage-iv-glioblastoma-patient-journey/", testimonialLabel:"\"Aaron\" — stage IV glioblastoma story (clinic-published, not independently verified)",
+    website:"https://hope4cancer.com/", phone:"+1 (619) 669-6511 · 1-888-544-5993",
     link:"https://bestcancertreatmentmexico.com/best-clinics/", linkLabel:"Clinic listing" },
 ];
 
@@ -818,6 +824,7 @@ function privateCardHTML(p){
         <div class="fact"><span class="fact-k">Framework</span><span class="fact-v">${p.framework}</span></div>
         <div class="fact"><span class="fact-k">Est. cost</span><span class="fact-v">${p.cost}</span></div>
         <div class="fact"><span class="fact-k">Insurance</span><span class="fact-v">${p.insurance}</span></div>
+        <div class="fact"><span class="fact-k">Contact</span><span class="fact-v">${p.website.startsWith("http") ? `<a href="${p.website}" target="_blank" rel="noopener">${p.website.replace(/^https?:\/\//,"").replace(/\/$/,"")}</a>` : p.website} · ${p.phone}</span></div>
       </div>
       <div class="card-desc">${p.evidenceNote}</div>
       ${p.caution ? `<div class="caution-line"><span>⚠</span><span>${p.caution}</span></div>` : ""}
