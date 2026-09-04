@@ -21,6 +21,8 @@
     --grade-p3-bg:#4C5BC7; --grade-p3-ink:#FFFFFF;
     --grade-ap-bg:#16203E; --grade-ap-ink:#D9A93B;
 
+    --caution:#A82F22; --caution-bg:#FBEAE8; --caution-bd:#EFC8C2;
+
     --shadow: 0 1px 2px rgba(18,24,43,.05), 0 6px 16px -8px rgba(18,24,43,.12);
     color-scheme: light;
   }
@@ -41,6 +43,8 @@
       --grade-p3-bg:#4C5BC7; --grade-p3-ink:#EDEFFF;
       --grade-ap-bg:#1B2340; --grade-ap-ink:#E7C15C;
 
+      --caution:#E2897E; --caution-bg:#2A1714; --caution-bd:#4A2620;
+
       --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px -12px rgba(0,0,0,.55);
       color-scheme: dark;
     }
@@ -58,6 +62,7 @@
     --grade-p2-bg:#333F7A; --grade-p2-ink:#C7CDFB;
     --grade-p3-bg:#4C5BC7; --grade-p3-ink:#EDEFFF;
     --grade-ap-bg:#1B2340; --grade-ap-ink:#E7C15C;
+    --caution:#E2897E; --caution-bg:#2A1714; --caution-bd:#4A2620;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 24px -12px rgba(0,0,0,.55);
     color-scheme: dark;
   }
@@ -139,6 +144,12 @@
   .alt-section{ margin-top:56px; padding-top:8px; border-top:1px dashed var(--border-strong); }
   .alt-head{ border-left:3px solid var(--ink-faint); }
   .tag-neutral{ background:var(--surface-2); color:var(--ink-faint); }
+  .private-head{ border-left:3px solid var(--caution); }
+  .b-flagged{ background:var(--caution-bg); color:var(--caution); border:1px solid var(--caution-bd); }
+  .caution-line{ margin-top:2px; padding-top:9px; border-top:1px dashed var(--caution-bd); font-size:12.5px; color:var(--caution); display:flex; gap:6px; align-items:flex-start; }
+  .checklist{ margin-top:16px; display:flex; flex-direction:column; gap:9px; }
+  .checklist-item{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--ink-muted); }
+  .checklist-item input{ margin-top:3px; accent-color:var(--accent); flex:none; }
 
   .card{ background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px 17px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:9px; }
   .card-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
@@ -239,6 +250,17 @@
     <div class="section-desc">Non-immunotherapy drugs — mostly antiparasitic, antifungal, or metabolic agents already approved for other conditions — being tested or proposed against glioblastoma by a different route (direct tumor-cell toxicity, metabolic disruption) rather than by activating the immune system. Evidence here is mixed: several of these trials reported <em>no benefit</em>, which is exactly why they're graded and sourced the same way as everything above rather than presented as a hopeful list.</div>
     <div class="callout" style="margin-top:14px;"><b>On ivermectin specifically:</b> no registered human clinical trial testing ivermectin against glioblastoma was found as of this compilation — only cell-culture and mouse-model studies. The trial number NCT05318469 tests ivermectin plus a checkpoint inhibitor in <em>metastatic triple-negative breast cancer</em> at Cedars-Sinai — not glioblastoma, and not an NIH trial (NIH sponsors only a small fraction of the trials on ClinicalTrials.gov; most, including this one, are sponsored by the treating institution). A newer, unrelated trial (NCT07487805, University of Florida) is testing ivermectin plus checkpoint inhibitors across solid tumors generally, but glioblastoma is not among its listed conditions.</div>
     <div class="grid" id="alt-grid"></div>
+  </div>
+
+  <div class="alt-section">
+    <div class="section-head private-head">
+      <h2>Private Providers — Cell Manufacturing Outside a Clinical Trial</h2>
+      <span class="section-count mono" id="private-count"></span>
+    </div>
+    <div class="section-desc">Clinics that manufacture a personalized cell product — a dendritic-cell vaccine made from the patient's own tumor tissue, or expanded/activated NK and T cells — and sell it directly to patients, generally outside any registered clinical trial. This is a fundamentally different category from every entry above: <strong>not FDA- or EMA-approved, not randomized, evidence is almost always a small case series or none at all, and it is paid for out of pocket</strong> (commonly USD/EUR tens of thousands). Included for completeness, not as a recommendation.</div>
+    <div class="callout" style="margin-top:14px; border-left-color:var(--caution);"><b>Read this before contacting any of these.</b> Regulators including the FDA have repeatedly taken enforcement action against clinics marketing unproven cellular products, and independent reporting has flagged specific clinics below for selling therapies with no supporting evidence alongside legitimate-sounding ones. Operating legally in its own country (Japan's regenerative-medicine law, Germany's "individual healing attempt" framework) is not the same thing as a product shown to work — legal-to-sell and proven-effective are different questions. None of these have published randomized outcome data for glioblastoma. Discuss with the treating neuro-oncology team before pursuing any of these, especially before travel that could delay or conflict with standard-of-care timing.</div>
+    <div class="grid" id="private-grid"></div>
+    <div class="checklist" id="private-checklist"></div>
   </div>
 
   <div class="legend">
@@ -694,6 +716,107 @@ function altCardHTML(e){
   const grid = document.getElementById("alt-grid");
   ALT_ENTRIES.forEach(e => grid.insertAdjacentHTML("beforeend", altCardHTML(e)));
   document.getElementById("alt-count").textContent = `${ALT_ENTRIES.length} entries`;
+})();
+
+// Private, patient-pay cell-manufacturing providers — outside any registered clinical trial.
+// Not graded on the Approved/Phase evidence ladder above; that ladder assumes registry-tracked trials.
+const PRIVATE_PROVIDERS = [
+  { id:"iozk", name:"IOZK", country:"Cologne, Germany",
+    product:"IO-Vac® autologous dendritic-cell vaccine, matured with oncolytic Newcastle disease virus — drives T-cell (and NK) activation against the patient's own tumor antigens.",
+    startingMaterial:"Tumor tissue (autologous lysate) + blood (monocyte-derived dendritic cells)",
+    framework:"German \"individual healing attempt\" (Heilversuch) / hospital exemption — legal, not an efficacy approval.",
+    tier:"published", tierLabel:"Published case series",
+    evidenceNote:"Single-institution case series in IDH-wildtype GBM reporting improved overall survival vs historical published data. Not randomized.",
+    caution:null,
+    link:"https://pmc.ncbi.nlm.nih.gov/articles/PMC9954396/", linkLabel:"Published case series, PMC 2023" },
+
+  { id:"seren-iseikai", name:"Seren Clinic & Osaka ISEIKAI Clinic", country:"Tokyo, Fukuoka, Nagoya, Kobe, Osaka — Japan",
+    product:"Peptide/tumor-antigen-pulsed dendritic-cell vaccines; some delivered via the J-SICT multi-center compassionate-use network.",
+    startingMaterial:"Tumor tissue or defined tumor antigens (varies by protocol) + blood",
+    framework:"Japan's Act on the Safety of Regenerative Medicine — government-reviewed safety framework, not an efficacy review.",
+    tier:"compassionate", tierLabel:"Compassionate-use case data only",
+    evidenceNote:"No randomized glioblastoma data located. Per-antigen pricing is published (¥44,000–66,000/antigen at Osaka ISEIKAI) — ask for a full itemized quote.",
+    caution:null,
+    link:"http://www.meneki-clinic.jp/en/treatment/cost.html", linkLabel:"Osaka ISEIKAI, published fee schedule" },
+
+  { id:"tokyo-nk-clinics", name:"Artisan Clinic Hibiya, Tokyo Cancer Clinic, Tokyo Relife Clinic", country:"Tokyo, Japan",
+    product:"Ex vivo expanded, activated NK cells and αβ/γδ T cells, infused for general immune enhancement.",
+    startingMaterial:"Blood only — not manufactured from tumor tissue",
+    framework:"Japan's Act on the Safety of Regenerative Medicine.",
+    tier:"compassionate", tierLabel:"General claims, no GBM data",
+    evidenceNote:"No glioblastoma-specific outcome data located. Typical package cost reported around USD 20,000–50,000.",
+    caution:"Does not meet the \"from a tumor sample\" criterion — included because it performs NK/T-cell activation, but the product is not tumor-derived or tumor-antigen-specific.",
+    link:"https://tokyocancerclinic.jp/lang/en/treatment/patent/cell01/", linkLabel:"Tokyo Cancer Clinic, NK cell therapy" },
+
+  { id:"hallwang", name:"Hallwang Private Oncology Clinic", country:"Dornstetten, Germany",
+    product:"Dendritic-cell, NK-cell and T-cell activation strategies alongside a broader personalized-oncology program.",
+    startingMaterial:"Blood and/or tumor material, varies by protocol (not independently confirmed)",
+    framework:"German individual healing attempt.",
+    tier:"none", tierLabel:"No published GBM data",
+    evidenceNote:"No peer-reviewed glioblastoma outcome data located for this clinic specifically.",
+    caution:"Independent reporting has specifically named this clinic for selling unproven and ineffective therapies alongside legitimate ones. Scrutinize closely.",
+    link:"https://en.wikipedia.org/wiki/Hallwang_Clinic", linkLabel:"Background summary" },
+
+  { id:"issels", name:"Issels Immuno-Oncology", country:"Santa Barbara, CA (US) & Tijuana, Mexico",
+    product:"Autologous dendritic-cell vaccine + lymphokine-activated killer (LAK) cells + activated NK cells, within a broader \"integrative\" protocol.",
+    startingMaterial:"Blood and/or tumor material, varies by protocol (not independently confirmed)",
+    framework:"US site offers non-cellular integrative services only; the cell-therapy component is delivered at the Tijuana, Mexico site, outside FDA oversight.",
+    tier:"none", tierLabel:"No published GBM data",
+    evidenceNote:"No peer-reviewed glioblastoma outcome data located.",
+    caution:"Cell therapy is bundled with a wider array of non-cellular \"integrative\" treatments — get a precise, itemized description of exactly what cell product is made and from what starting material.",
+    link:"https://bestcancertreatmentmexico.com/center/issels-immuno-oncology/", linkLabel:"Program overview" },
+
+  { id:"hope4cancer", name:"Hope4Cancer Institute", country:"Rosarito, Mexico",
+    product:"Proprietary branded protocols (hyperthermia, \"SonoPhoto Dynamic Therapy,\" proprietary vaccines) marketed for glioblastoma among other cancers.",
+    startingMaterial:"Not clearly documented as tumor-tissue-derived cell manufacturing",
+    framework:"Operates outside FDA oversight (Mexico).",
+    tier:"none", tierLabel:"No published data",
+    evidenceNote:"No peer-reviewed outcome data located; marketing material only.",
+    caution:"Weakest match to \"cell manufacturing\" on this list — branding emphasizes proprietary alternative-medicine protocols rather than a characterized, verifiable cell product. Lowest confidence of the group.",
+    link:"https://bestcancertreatmentmexico.com/best-clinics/", linkLabel:"Clinic listing" },
+];
+
+const PRIVATE_CHECKLIST = [
+  "Ask exactly what starting material is used — tumor tissue, blood, or both — and get the manufacturing/release protocol in writing, not just marketing language.",
+  "Ask for anonymized outcome data for glioblastoma specifically, ideally from an independent (non-clinic) source, not testimonials.",
+  "Get a complete, itemized, all-inclusive cost quote in writing before traveling — medical-tourism cancer clinics are a well-documented site of cost surprises.",
+  "Confirm which country's regulatory framework applies, what it actually reviews (safety vs. efficacy), and what recourse exists if something goes wrong.",
+  "Bring it to the treating neuro-oncology team first — check whether pursuing this would conflict with, or delay, the standard-of-care and clinical-trial timing.",
+];
+
+function privateCardHTML(p){
+  const tierCls = p.tier === "published" ? "b-phase1" : p.tier === "compassionate" ? "b-preclinical" : "b-preclinical";
+  return `
+    <div class="card">
+      <div class="card-top">
+        <div class="card-name">${p.name}</div>
+        <span class="badge ${tierCls}">${p.tierLabel}</span>
+      </div>
+      <div class="card-oneliner">${p.product}</div>
+      <div class="card-facts">
+        <div class="fact"><span class="fact-k">Location</span><span class="fact-v">${p.country}</span></div>
+        <div class="fact"><span class="fact-k">Made from</span><span class="fact-v">${p.startingMaterial}</span></div>
+        <div class="fact"><span class="fact-k">Framework</span><span class="fact-v">${p.framework}</span></div>
+      </div>
+      <div class="card-desc">${p.evidenceNote}</div>
+      ${p.caution ? `<div class="caution-line"><span>⚠</span><span>${p.caution}</span></div>` : ""}
+      <div class="card-tags"><span class="tag ${p.caution ? "b-flagged" : "tag-neutral"}">${p.caution ? "Caution flagged" : "No caution flagged"}</span></div>
+      <div class="card-source"><a href="${p.link}" target="_blank" rel="noopener">${p.linkLabel} ↗</a></div>
+    </div>`;
+}
+
+(function buildPrivateSection(){
+  const grid = document.getElementById("private-grid");
+  PRIVATE_PROVIDERS.forEach(p => grid.insertAdjacentHTML("beforeend", privateCardHTML(p)));
+  document.getElementById("private-count").textContent = `${PRIVATE_PROVIDERS.length} providers`;
+
+  const list = document.getElementById("private-checklist");
+  PRIVATE_CHECKLIST.forEach(text => {
+    const row = document.createElement("label");
+    row.className = "checklist-item";
+    row.innerHTML = `<input type="checkbox"><span>${text}</span>`;
+    list.appendChild(row);
+  });
 })();
 
 function render(){
