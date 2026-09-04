@@ -728,15 +728,18 @@ const PRIVATE_PROVIDERS = [
     tier:"published", tierLabel:"Published case series",
     evidenceNote:"Single-institution case series in IDH-wildtype GBM reporting improved overall survival vs historical published data. Not randomized.",
     caution:null,
-    link:"https://pmc.ncbi.nlm.nih.gov/articles/PMC9954396/", linkLabel:"Published case series, PMC 2023" },
+    outcomesUrl:"https://pmc.ncbi.nlm.nih.gov/articles/PMC9954396/", outcomesLabel:"Published case series, PMC 2023",
+    testimonialUrl:"https://www.glioblastomamultiforme.it/en/emanueles-story/", testimonialLabel:"Emanuele's story (clinic-adjacent patient account, not independently verified)",
+    link:"https://www.iozk.de/en/", linkLabel:"Clinic site" },
 
   { id:"seren-iseikai", name:"Seren Clinic & Osaka ISEIKAI Clinic", country:"Tokyo, Fukuoka, Nagoya, Kobe, Osaka — Japan",
     product:"Peptide/tumor-antigen-pulsed dendritic-cell vaccines; some delivered via the J-SICT multi-center compassionate-use network.",
     startingMaterial:"Tumor tissue or defined tumor antigens (varies by protocol) + blood",
     framework:"Japan's Act on the Safety of Regenerative Medicine — government-reviewed safety framework, not an efficacy review.",
     tier:"compassionate", tierLabel:"Compassionate-use case data only",
-    evidenceNote:"No randomized glioblastoma data located. Per-antigen pricing is published (¥44,000–66,000/antigen at Osaka ISEIKAI) — ask for a full itemized quote.",
+    evidenceNote:"No randomized glioblastoma survival/efficacy data located. Per-antigen pricing is published (¥44,000–66,000/antigen at Osaka ISEIKAI) — ask for a full itemized quote.",
     caution:null,
+    outcomesUrl:"https://pmc.ncbi.nlm.nih.gov/articles/PMC10696395/", outcomesLabel:"Independent study of patient experience with DC-vaccine clinics in Japan (not a survival/efficacy study)",
     link:"http://www.meneki-clinic.jp/en/treatment/cost.html", linkLabel:"Osaka ISEIKAI, published fee schedule" },
 
   { id:"tokyo-nk-clinics", name:"Artisan Clinic Hibiya, Tokyo Cancer Clinic, Tokyo Relife Clinic", country:"Tokyo, Japan",
@@ -744,7 +747,7 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Blood only — not manufactured from tumor tissue",
     framework:"Japan's Act on the Safety of Regenerative Medicine.",
     tier:"compassionate", tierLabel:"General claims, no GBM data",
-    evidenceNote:"No glioblastoma-specific outcome data located. Typical package cost reported around USD 20,000–50,000.",
+    evidenceNote:"No glioblastoma-specific outcome data or patient testimonials located for these specific clinics. Typical package cost reported around USD 20,000–50,000.",
     caution:"Does not meet the \"from a tumor sample\" criterion — included because it performs NK/T-cell activation, but the product is not tumor-derived or tumor-antigen-specific.",
     link:"https://tokyocancerclinic.jp/lang/en/treatment/patent/cell01/", linkLabel:"Tokyo Cancer Clinic, NK cell therapy" },
 
@@ -755,6 +758,7 @@ const PRIVATE_PROVIDERS = [
     tier:"none", tierLabel:"No published GBM data",
     evidenceNote:"No peer-reviewed glioblastoma outcome data located for this clinic specifically.",
     caution:"Independent reporting has specifically named this clinic for selling unproven and ineffective therapies alongside legitimate ones. Scrutinize closely.",
+    testimonialUrl:"https://www.hallwang-clinic.com/en/experiences/", testimonialLabel:"Clinic-published patient testimonials (not glioblastoma-specific, not independently verified)",
     link:"https://en.wikipedia.org/wiki/Hallwang_Clinic", linkLabel:"Background summary" },
 
   { id:"issels", name:"Issels Immuno-Oncology", country:"Santa Barbara, CA (US) & Tijuana, Mexico",
@@ -764,6 +768,7 @@ const PRIVATE_PROVIDERS = [
     tier:"none", tierLabel:"No published GBM data",
     evidenceNote:"No peer-reviewed glioblastoma outcome data located.",
     caution:"Cell therapy is bundled with a wider array of non-cellular \"integrative\" treatments — get a precise, itemized description of exactly what cell product is made and from what starting material.",
+    testimonialUrl:"https://issels.com/testimonials/index.html", testimonialLabel:"Clinic-published patient testimonials, 40+ videos (not glioblastoma-specific, not independently verified)",
     link:"https://bestcancertreatmentmexico.com/center/issels-immuno-oncology/", linkLabel:"Program overview" },
 
   { id:"hope4cancer", name:"Hope4Cancer Institute", country:"Rosarito, Mexico",
@@ -771,8 +776,9 @@ const PRIVATE_PROVIDERS = [
     startingMaterial:"Not clearly documented as tumor-tissue-derived cell manufacturing",
     framework:"Operates outside FDA oversight (Mexico).",
     tier:"none", tierLabel:"No published data",
-    evidenceNote:"No peer-reviewed outcome data located; marketing material only.",
+    evidenceNote:"No peer-reviewed outcome data located; marketing material only. A published testimonial exists (linked below) for a stated stage IV glioblastoma case — weigh that single account against the complete absence of peer-reviewed data.",
     caution:"Weakest match to \"cell manufacturing\" on this list — branding emphasizes proprietary alternative-medicine protocols rather than a characterized, verifiable cell product. Lowest confidence of the group.",
+    testimonialUrl:"https://hope4cancer.com/patient-journeys/aaron-stage-iv-glioblastoma-patient-journey/", testimonialLabel:"\"Aaron\" — stage IV glioblastoma story (clinic-published, not independently verified)",
     link:"https://bestcancertreatmentmexico.com/best-clinics/", linkLabel:"Clinic listing" },
 ];
 
@@ -801,7 +807,11 @@ function privateCardHTML(p){
       <div class="card-desc">${p.evidenceNote}</div>
       ${p.caution ? `<div class="caution-line"><span>⚠</span><span>${p.caution}</span></div>` : ""}
       <div class="card-tags"><span class="tag ${p.caution ? "b-flagged" : "tag-neutral"}">${p.caution ? "Caution flagged" : "No caution flagged"}</span></div>
-      <div class="card-source"><a href="${p.link}" target="_blank" rel="noopener">${p.linkLabel} ↗</a></div>
+      <div class="card-source">
+        <a href="${p.link}" target="_blank" rel="noopener">${p.linkLabel} ↗</a>
+        ${p.outcomesUrl ? `<a href="${p.outcomesUrl}" target="_blank" rel="noopener">Outcomes so far: ${p.outcomesLabel} ↗</a>` : `<span class="src-note">Outcomes so far: no independent survival/efficacy data located.</span>`}
+        ${p.testimonialUrl ? `<a href="${p.testimonialUrl}" target="_blank" rel="noopener">Patient story: ${p.testimonialLabel} ↗</a>` : `<span class="src-note">Patient story: none located for this specific clinic.</span>`}
+      </div>
     </div>`;
 }
 
