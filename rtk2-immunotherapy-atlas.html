@@ -201,12 +201,12 @@
     <h1>RTK II Immunotherapy Atlas</h1>
     <p class="dek">A graded, filterable map of immunotherapy approaches worldwide relevant to <strong>IDH-wildtype glioblastoma, RTK II (RTK2) methylation subclass</strong> — organized by mechanism, from checkpoint vaccines to CD8⁺ adoptive transfer, with each entry staged by clinical evidence.</p>
     <div class="meta-row">
-      <span><b>28</b> approaches tracked</span>
+      <span><b>30</b> approaches tracked</span>
       <span><b>5</b> mechanism groups</span>
       <span>Sources: ClinicalTrials.gov, sponsor releases, peer-reviewed literature</span>
     </div>
     <div class="callout">
-      <b>Not medical advice.</b> This atlas is a research-organization aid for discussion with a treating neuro-oncologist. RTK II is a DNA-methylation subclass identified after surgery, not a treatment indication most trials enroll by — nearly every entry below enrolls on IDH-wildtype glioblastoma histology broadly, not RTK II status specifically. Evidence that a subtype-stratified DNA-methylation signature correlates with tumor T-cell infiltration and survival exists (Neuro-Oncology, 2021) but subtype-specific immunotherapy outcome data remains sparse — treat mechanism fit, not subtype-matching, as the reason each entry is listed.
+      <b>Not medical advice.</b> This atlas is a research-organization aid for discussion with a treating neuro-oncologist. RTK II is a DNA-methylation subclass identified after surgery, not a treatment indication most trials enroll by — nearly every entry below enrolls on IDH-wildtype glioblastoma histology broadly, not RTK II status specifically. Evidence that a subtype-stratified DNA-methylation signature correlates with tumor T-cell infiltration and survival exists (Neuro-Oncology, 2021) but subtype-specific immunotherapy outcome data remains sparse — treat mechanism fit, not subtype-matching, as the reason each entry is listed. <b>DKFZ</b> (German Cancer Research Center), the institute that defined RTK II, is a research center, not itself a treating hospital — its clinical partner, <a href="https://www.klinikum.uni-heidelberg.de/en/neurologische-klinik/neurologie-und-poliklinik/behandlungsspektrum/schwerpunkt-neuroonkologie" target="_blank" rel="noopener">Heidelberg University Hospital</a>, runs its glioma immunotherapy trials (GAPVAC-101, N²M²/NOA-20 below) — both are closed now; contact NCT Heidelberg directly for what's currently open.
     </div>
   </div>
 </div>
@@ -464,6 +464,22 @@ const ENTRIES = [
     trial:"https://clinicaltrials.gov/study/NCT06816927", trialLabel:"NCT06816927",
     outcomesNote:"Recruiting — no results posted yet.",
     src:"https://clinicaltrials.gov/study/NCT06816927", srcLabel:"ClinicalTrials.gov (NCT06816927)" },
+
+  { id:"gapvac-101", name:"GAPVAC-101 (Personalized Dual Peptide Vaccine)", groups:["tcell"], grade:"phase1", gradeLabel:"Phase 1 · completed",
+    status:"completed", sponsor:"University Hospital Heidelberg / DKTK (Wolfgang Wick)", country:"Heidelberg & Tübingen, Germany",
+    oneLiner:"Fully personalized dual peptide vaccine, selected per patient from whole-exome sequencing plus HLA-ligandome analysis — the DKFZ/Heidelberg group that defined the RTK II methylation class this atlas is built around.",
+    desc:"Each patient received two custom vaccines: APVAC1 (up to 7 peptides from a pre-selected warehouse) and, from the 4th temozolomide cycle, APVAC2 (typically 2 entirely new antigens chosen from that patient's own tumor mutations). A first-in-human feasibility trial in 16 newly diagnosed GBM patients, integrated into standard of care.",
+    trial:"https://clinicaltrials.gov/study/NCT02149225", trialLabel:"NCT02149225",
+    outcomesUrl:"https://www.nature.com/articles/s41586-018-0810-y", outcomesLabel:"Median PFS 14.2 mo, OS 29 mo from diagnosis (n=15 vaccinated) — Nature, 2018",
+    src:"https://www.nature.com/articles/s41586-018-0810-y", srcLabel:"Nature, GAPVAC-101 trial" },
+
+  { id:"n2m2-noa20", name:"N²M² / NOA-20 (Molecularly Matched Umbrella Trial)", groups:["tcell"], grade:"phase2", gradeLabel:"Phase I/IIa · completed",
+    status:"completed", sponsor:"University Hospital Heidelberg (13 German NOA sites)", country:"Germany",
+    oneLiner:"A German GBM AGILE-style umbrella trial: molecular profiling routes each newly diagnosed patient to a matched targeted therapy or immunotherapy arm alongside radiotherapy.",
+    desc:"Randomized newly diagnosed glioblastoma to one of several molecularly matched arms (alectinib, vismodegib, idasanutlin, palbociclib, temsirolimus) or non-matched arms (atezolizumab, asunercept, temozolomide) based on individual tumor profiling. Required MGMT-promoter-unmethylated status — the same criterion excluded elsewhere in this compilation for this case, so this trial would not itself have been a match even while open.",
+    trial:"https://clinicaltrials.gov/study/NCT03158389", trialLabel:"NCT03158389",
+    outcomesNote:"Completed September 2023, 228 patients across sub-trials. Individual participant data not shared publicly — full results not independently verifiable from the registry record.",
+    src:"https://pmc.ncbi.nlm.nih.gov/articles/PMC6303534/", srcLabel:"N2M2/NOA-20 trial design, PMC" },
 
   { id:"b7h3-tiantan", name:"B7-H3 CAR-T", groups:["cd8"], grade:"phase1", gradeLabel:"Phase 1",
     status:"active", sponsor:"Beijing Tiantan Hospital", country:"Beijing, China",
